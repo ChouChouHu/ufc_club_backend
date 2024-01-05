@@ -43,6 +43,23 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to bot!' });
 });
 
+function fetchAndSendDiff(pr) {
+  const url = pr.diff_url;
+  fetch(url, {
+    headers: {
+      Authorization: `token ${githubToken}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      sendTestMessage(data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      sendTestMessage('這次失敗');
+    });
+}
+
 app.post(
   '/pull_request',
   express.json({ type: 'application/json' }),
@@ -52,32 +69,21 @@ app.post(
     if (githubEvent === 'pull_request') {
       const data = req.body;
       const action = data.action;
+      const pr = data.pull_request;
+      // console.log(data);
       if (action === 'opened') {
-        console.log(
-          `An pull_request was opened with this title: ${data.pull_request.title}`
-        );
+        console.log(`An pull_request was opened with this title: ${pr.title}`);
         sendTestMessage(
-          `An pull_request was opened with this title: ${data.pull_request.title}`
+          `An pull_request was opened with this title: ${pr.title}`
         );
+        fetchAndSendDiff(pr);
       } else if (action === 'reopened') {
         console.log(
-          `An pull_request was reopened with this title: ${data.pull_request.title}`
+          `An pull_request was reopened with this title: ${pr.title}`
         );
-        const url = data.pull_request.diff_url;
-        fetch(url, {
-          headers: {
-            Authorization: `token ${githubToken}`,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            sendTestMessage(data);
-          })
-          .catch((error) => console.error('Error:', error));
+        fetchAndSendDiff(pr);
       } else if (action === 'closed') {
-        console.log(
-          `An pull_request was closed by ${data.pull_request.user.login}`
-        );
+        sendTestMessage(`${pr.user.login} close 他的 PR 了`);
       } else {
         console.log(`Unhandled action for the pull_request event: ${action}`);
       }
