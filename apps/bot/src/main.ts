@@ -4,6 +4,7 @@
  */
 
 import express from 'express';
+import fetch from 'node-fetch';
 import * as path from 'path';
 import { InteractionResponseType, InteractionType } from 'discord-interactions';
 import {
@@ -20,6 +21,7 @@ import {
 } from './messages';
 
 const app = express();
+const githubToken = process.env.GITHUB_TOKEN;
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 // app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
@@ -59,9 +61,17 @@ app.post(
         console.log(
           `An issue was reopened with this title: ${data.issue.title}`
         );
-        sendTestMessage(
-          `An issue was reopened with this title: ${data.issue.title}`
-        );
+        const url = data.pull_request.diff_url;
+        fetch(url, {
+          headers: {
+            Authorization: `token ${githubToken}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            sendTestMessage(data);
+          })
+          .catch((error) => console.error('Error:', error));
       } else if (action === 'closed') {
         console.log(`An issue was closed by ${data.issue.user.login}`);
       } else {
