@@ -41,9 +41,21 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to bot!' });
 });
 
-app.post('/interactions', (req, res) => {
+app.post('/pull_request', (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { type, id, data } = req.body;
+  const { type, data } = req.body;
+  /**
+   * Handle verification requests
+   */
+  if (type === InteractionType.PING) {
+    return res.send({ type: InteractionResponseType.PONG });
+  }
+  console.log(data);
+  sendTestMessage(data);
+});
+
+app.post('/interactions', (req, res) => {
+  const { type } = req.body;
   /**
    * Handle verification requests
    */
