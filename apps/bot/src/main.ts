@@ -4,7 +4,7 @@
  */
 
 import express from 'express';
-import fetch from 'node-fetch';
+// import fetch from 'node-fetch';
 import * as path from 'path';
 import { InteractionResponseType, InteractionType } from 'discord-interactions';
 import {
@@ -21,7 +21,7 @@ import {
 } from './messages';
 
 const app = express();
-const githubToken = process.env.GITHUB_TOKEN;
+// const githubToken = process.env.GITHUB_TOKEN;
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 // app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
@@ -43,23 +43,6 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to bot!' });
 });
 
-function fetchAndSendDiff(pr) {
-  const url = pr.diff_url;
-  fetch(url, {
-    headers: {
-      Authorization: `token ${githubToken}`,
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      sendTestMessage(data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-      sendTestMessage('這次失敗');
-    });
-}
-
 app.post(
   '/pull_request',
   express.json({ type: 'application/json' }),
@@ -74,16 +57,17 @@ app.post(
       if (action === 'opened') {
         console.log(`An pull_request was opened with this title: ${pr.title}`);
         sendTestMessage(
-          `An pull_request was opened with this title: ${pr.title}`
+          `An pull_request was opened by ${pr.user.login} with this title: ${pr.title}`
         );
-        fetchAndSendDiff(pr);
       } else if (action === 'reopened') {
         console.log(
           `An pull_request was reopened with this title: ${pr.title}`
         );
-        fetchAndSendDiff(pr);
+        sendTestMessage(
+          `An pull_request was reopened by ${pr.user.login} with this title: ${pr.title}`
+        );
       } else if (action === 'closed') {
-        sendTestMessage(`${pr.user.login} close 他的 PR 了`);
+        sendTestMessage(`${pr.user.login} close 他的 ${pr.title} PR 了`);
       } else {
         console.log(`Unhandled action for the pull_request event: ${action}`);
       }
@@ -112,5 +96,36 @@ app.post(
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
+  sendTestMessage('死者甦醒！');
 });
 server.on('error', console.error);
+
+// function fetchAndSendDiff(pr) {
+//   const url = pr.diff_url;
+//   console.log(url);
+//   console.log(githubToken);
+//   fetch(url, {
+//     headers: {
+//       Authorization: `bearer ${githubToken}`,
+//     },
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log('Success:', data);
+//       // sendTestMessage(data);
+//       return data;
+//     })
+//     .catch((error) => {
+//       console.error('Error:', error);
+//       sendTestMessage('這次失敗');
+//     });
+//   return;
+// }
+
+// app.get('/test', async (req, res) => {
+//   const data = await fetchAndSendDiff({
+//     diff_url:
+//       'https://api.github.com/repos/ChouChouHu/Alphateam_Test/contents/',
+//   });
+//   res.send(data);
+// });
