@@ -4,7 +4,6 @@
  */
 
 import express from 'express';
-// import bodyParser from 'body-parser';
 import * as path from 'path';
 import { InteractionResponseType, InteractionType } from 'discord-interactions';
 import {
@@ -23,7 +22,6 @@ import {
 const app = express();
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
-// app.use(bodyParser.json());
 // app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 app.get('/api', (req, res) => {
@@ -56,6 +54,13 @@ app.post(
         console.log(`An issue was opened with this title: ${data.issue.title}`);
         sendTestMessage(
           `An issue was opened with this title: ${data.issue.title}`
+        );
+      } else if (action === 'reopened') {
+        console.log(
+          `An issue was reopened with this title: ${data.issue.title}`
+        );
+        sendTestMessage(
+          `An issue was reopened with this title: ${data.issue.title}`
         );
       } else if (action === 'closed') {
         console.log(`An issue was closed by ${data.issue.user.login}`);
