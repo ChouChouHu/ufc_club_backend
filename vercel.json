@@ -1,0 +1,14 @@
+{
+    "builds": [
+      {
+        "src": "apps/bot/src/main.ts",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "apps/bot/src/main.ts"
+      }
+    ]
+  }

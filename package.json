@@ -2,11 +2,19 @@
   "name": "@org/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "main": "apps/bot/src/main.ts",
+  "scripts": {
+    "start": "nx serve bot",
+    "vercel-build": "echo hello"
+  },
   "private": true,
   "dependencies": {
     "axios": "^1.0.0",
+    "discord-interactions": "^3.4.0",
+    "dotenv": "^16.3.1",
     "express": "^4.18.1",
+    "node-fetch": "2",
+    "node-schedule": "^2.1.1",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
