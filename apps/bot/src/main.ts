@@ -42,10 +42,10 @@ app.get('/api', (req, res) => {
 });
 
 app.post('/pull_request', (req, res) => {
-  const { data } = req.body;
-  console.log(data);
-  sendTestMessage(data);
-  return res.send({ message: 'Success?' });
+  console.log(req);
+  const data = req.body;
+  sendTestMessage(data.action);
+  return res.send(data);
 });
 
 app.post(
