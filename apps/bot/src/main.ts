@@ -49,7 +49,7 @@ app.post(
   (req, res) => {
     res.status(202).send('Accepted');
     const githubEvent = req.headers['x-github-event'];
-    if (githubEvent === 'issues') {
+    if (githubEvent === 'pull_request') {
       const data = req.body;
       const action = data.action;
       if (action === 'opened') {
