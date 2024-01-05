@@ -53,13 +53,15 @@ app.post(
       const data = req.body;
       const action = data.action;
       if (action === 'opened') {
-        console.log(`An issue was opened with this title: ${data.issue.title}`);
+        console.log(
+          `An pull_request was opened with this title: ${data.pull_request.title}`
+        );
         sendTestMessage(
-          `An issue was opened with this title: ${data.issue.title}`
+          `An pull_request was opened with this title: ${data.pull_request.title}`
         );
       } else if (action === 'reopened') {
         console.log(
-          `An issue was reopened with this title: ${data.issue.title}`
+          `An pull_request was reopened with this title: ${data.pull_request.title}`
         );
         const url = data.pull_request.diff_url;
         fetch(url, {
@@ -73,9 +75,11 @@ app.post(
           })
           .catch((error) => console.error('Error:', error));
       } else if (action === 'closed') {
-        console.log(`An issue was closed by ${data.issue.user.login}`);
+        console.log(
+          `An pull_request was closed by ${data.pull_request.user.login}`
+        );
       } else {
-        console.log(`Unhandled action for the issue event: ${action}`);
+        console.log(`Unhandled action for the pull_request event: ${action}`);
       }
     } else if (githubEvent === 'ping') {
       console.log('GitHub sent the ping event');
