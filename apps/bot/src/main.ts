@@ -50,7 +50,7 @@ function fetchAndSendDiff(pr) {
       Authorization: `token ${githubToken}`,
     },
   })
-    .then((response) => response.json())
+    .then((response) => response.text())
     .then((data) => {
       sendTestMessage(data);
     })
