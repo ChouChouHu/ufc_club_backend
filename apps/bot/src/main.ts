@@ -22,7 +22,7 @@ import {
 const app = express();
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
-app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
+// app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 app.get('/api', (req, res) => {
   (async () => {
@@ -54,15 +54,19 @@ app.post('/pull_request', (req, res) => {
   sendTestMessage(data);
 });
 
-app.post('/interactions', (req, res) => {
-  const { type } = req.body;
-  /**
-   * Handle verification requests
-   */
-  if (type === InteractionType.PING) {
-    return res.send({ type: InteractionResponseType.PONG });
+app.post(
+  '/interactions',
+  VerifyDiscordRequest(process.env.PUBLIC_KEY),
+  (req, res) => {
+    const { type } = req.body;
+    /**
+     * Handle verification requests
+     */
+    if (type === InteractionType.PING) {
+      return res.send({ type: InteractionResponseType.PONG });
+    }
   }
-});
+);
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
