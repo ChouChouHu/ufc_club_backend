@@ -42,16 +42,10 @@ app.get('/api', (req, res) => {
 });
 
 app.post('/pull_request', (req, res) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { type, data } = req.body;
-  /**
-   * Handle verification requests
-   */
-  if (type === InteractionType.PING) {
-    return res.send({ type: InteractionResponseType.PONG });
-  }
+  const { data } = req.body;
   console.log(data);
   sendTestMessage(data);
+  return res.send({ message: 'Success?' });
 });
 
 app.post(
