@@ -75,10 +75,10 @@ export async function sendTestMessage(content) {
         });
         const data = await res.json();
         if (data) {
-            // console.log('發送成功');
+            console.log('測試訊息發送成功');
         }
     } catch (err) {
-        console.error('發送出錯:', err);
+        console.error('測試訊息發送出錯:', err);
     }
 }
 

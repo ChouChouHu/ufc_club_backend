@@ -37,7 +37,7 @@ app.get('/api', (req, res) => {
       sendTestMessage('Bot is up and running!');
     } catch (e) {
       console.log(e);
-      sendTestMessage('Error: ' + e + '\n' + 'Stack: ' + e.stack + '\n');
+      // sendTestMessage('Error: ' + e + '\n' + 'Stack: ' + e.stack + '\n');
     }
   })();
   res.send({ message: 'Welcome to bot!' });
