@@ -9,9 +9,10 @@ import * as path from 'path';
 import { InteractionResponseType, InteractionType } from 'discord-interactions';
 import {
   VerifyDiscordRequest,
-  sendScheduledMessage,
-  sendDailyMessage,
+  setSchedule,
+  sendMessage,
   sendTestMessage,
+  setDailyMessage,
 } from './utils';
 import {
   remote_week_1,
@@ -23,18 +24,37 @@ import {
 const app = express();
 // const githubToken = process.env.GITHUB_TOKEN;
 
+const roleFrontend = '<@&1189113826243792956>';
+const roleTester = '<@&1193794222269136938>';
+
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 // app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
-app.get('/api', (req, res) => {
+app.get('/set_schedule', (req, res) => {
   (async () => {
     try {
-      await sendDailyMessage();
-      await sendScheduledMessage('1-10 9:00', remote_week_1);
-      await sendScheduledMessage('1-17 9:00', remote_week_2);
-      await sendScheduledMessage('1-24 9:00', remote_week_3);
-      await sendScheduledMessage('1-31 9:00', remote_week_4);
-      await sendTestMessage('Bot is up and running!');
+      await setDailyMessage();
+      await setSchedule(
+        '1-10 9:00',
+        sendMessage,
+        `${roleFrontend} ${remote_week_1}`
+      );
+      await setSchedule(
+        '1-17 9:00',
+        sendMessage,
+        `${roleFrontend} ${remote_week_2}`
+      );
+      await setSchedule(
+        '1-24 9:00',
+        sendMessage,
+        `${roleFrontend} ${remote_week_3}`
+      );
+      await setSchedule(
+        '1-31 9:00',
+        sendMessage,
+        `${roleFrontend} ${remote_week_4}`
+      );
+      await sendTestMessage(`${roleTester} Bot is up and running!`);
       res.status(200).send({ message: 'Welcome to bot!' });
     } catch (e) {
       console.log(e);
