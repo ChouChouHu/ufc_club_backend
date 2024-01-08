@@ -35,14 +35,13 @@ app.get('/api', (req, res) => {
       await sendScheduledMessage('1-24 9:00', remote_week_3);
       await sendScheduledMessage('1-31 9:00', remote_week_4);
       await sendTestMessage('Bot is up and running!');
-      res.status(200).send('Accepted');
+      res.status(200).send({ message: 'Welcome to bot!' });
     } catch (e) {
       console.log(e);
       res.status(500).send('Something wrong!');
       // sendTestMessage('Error: ' + e + '\n' + 'Stack: ' + e.stack + '\n');
     }
   })();
-  res.send({ message: 'Welcome to bot!' });
 });
 
 app.post(
