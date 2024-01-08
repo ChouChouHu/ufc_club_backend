@@ -35,7 +35,7 @@ export async function sendMessage(content) {
             body: {
                 content,
                 allowed_mentions: {
-                    parse: ['roles'],
+                    // parse: ['roles'],
                     "roles": ["1189113826243792956"]
                 },
             },
