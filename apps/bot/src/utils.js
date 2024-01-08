@@ -16,12 +16,8 @@ export function sendScheduledMessage(time, content) {
     );
     const reminderTime = new Date(scheduledTime.getTime() - 5 * 60000);
 
-    // console.log(reminderTime)
-    console.log(`已排程 ${formatDate(scheduledTime)}`);
-    // sendTestMessage(`已排程 ${formatDate(scheduledTime)}`);
-
     schedule.scheduleJob(reminderTime, function () {
-        console.log(`提醒：將於5分鐘後發送訊息：${content}`);
+        // console.log(`提醒：將於5分鐘後發送訊息：${content}`);
         sendTestMessage(`提醒：將於5分鐘後發送訊息：
 
 ${content}`);
@@ -49,6 +45,7 @@ ${content}`);
             console.error('發送出錯:', err);
         }
     });
+    console.log(`已排程 ${formatDate(scheduledTime)}`);
 }
 
 export function sendDailyMessage() {
@@ -56,12 +53,13 @@ export function sendDailyMessage() {
     rule.hour = 8;
     rule.minute = 0;
 
-    console.log('已排程每日早上八點發送訊息');
-    // sendTestMessage('已排程每日早上八點發送訊息');
     schedule.scheduleJob(rule, function () {
         console.log("我還活著");
         sendTestMessage("我還活著");
     });
+
+    console.log('已排程每日早上八點發送訊息');
+    // sendTestMessage('已排程每日早上八點發送訊息');
 }
 
 export async function sendTestMessage(content) {

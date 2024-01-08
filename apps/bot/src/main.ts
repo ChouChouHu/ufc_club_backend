@@ -29,14 +29,16 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.get('/api', (req, res) => {
   (async () => {
     try {
-      sendDailyMessage();
-      sendScheduledMessage('1-10 9:00', remote_week_1);
-      sendScheduledMessage('1-17 9:00', remote_week_2);
-      sendScheduledMessage('1-24 9:00', remote_week_3);
-      sendScheduledMessage('1-31 9:00', remote_week_4);
-      sendTestMessage('Bot is up and running!');
+      await sendDailyMessage();
+      await sendScheduledMessage('1-10 9:00', remote_week_1);
+      await sendScheduledMessage('1-17 9:00', remote_week_2);
+      await sendScheduledMessage('1-24 9:00', remote_week_3);
+      await sendScheduledMessage('1-31 9:00', remote_week_4);
+      await sendTestMessage('Bot is up and running!');
+      res.status(200).send('Accepted');
     } catch (e) {
       console.log(e);
+      res.status(500).send('Something wrong!');
       // sendTestMessage('Error: ' + e + '\n' + 'Stack: ' + e.stack + '\n');
     }
   })();
@@ -96,7 +98,7 @@ app.post(
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
-  sendTestMessage('死者甦醒！');
+  // sendTestMessage('死者甦醒！');
 });
 server.on('error', console.error);
 
