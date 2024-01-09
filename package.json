@@ -4,7 +4,9 @@
   "license": "MIT",
   "main": "apps/bot/src/main.ts",
   "scripts": {
-    "start": "nx serve bot",
+    "start": "node dist/apps/bot/main.js",
+    "build": "nx build bot",
+    "dev": "nx serve bot",
     "vercel-build": "echo hello"
   },
   "private": true,
