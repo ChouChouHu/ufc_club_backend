@@ -29,7 +29,7 @@ app.get('/set_schedule', (req, res) => {
   (async () => {
     try {
       await setDailyMessage();
-      await setSchedule('1-9 10:05', sendTestMessage, `${roleTester} hi`);
+      await setSchedule('1-9 11:15', sendTestMessage, `${roleTester} hi`);
       await setSchedule(
         '1-10 9:00',
         sendMessage,
