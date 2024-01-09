@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node dist/apps/bot/main.js",
     "build": "nx build bot",
-    "dev": "nx serve bot",
-    "vercel-build": "echo hello"
+    "dev": "nx serve bot"
   },
   "private": true,
   "dependencies": {
