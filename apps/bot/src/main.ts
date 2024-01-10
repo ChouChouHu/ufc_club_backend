@@ -91,7 +91,7 @@ app.post(
           return;
         }
 
-        if (!/^week_\d+_part_\d+$/.test(compareBranch)) {
+        if (!/^feature\/[a-zA-Z]+-w\d+p\d+$/.test(compareBranch)) {
           postComment(
             pr.issue_url + '/comments',
             '請檢查你的 compare branch 命名是否為 week_x_part_y 格式喔！by Alban'
