@@ -8,6 +8,8 @@ import {
   sendMessage,
   sendTestMessage,
   setDailyMessage,
+  getResponseFromGPTByDiff,
+  postComment,
 } from './utils';
 import {
   remote_week_1,
@@ -29,7 +31,7 @@ app.get('/set_schedule', (req, res) => {
   (async () => {
     try {
       await setDailyMessage();
-      await setSchedule('1-9 11:19', sendTestMessage, `${roleTester} hi`);
+      await setSchedule('1-9 11:44', sendTestMessage, `${roleTester} hi`);
       await setSchedule(
         '1-10 9:00',
         sendMessage,
@@ -70,12 +72,17 @@ app.post(
       const data = req.body;
       const action = data.action;
       const pr = data.pull_request;
-      // console.log(data);
+
       if (action === 'opened') {
         console.log(`An pull_request was opened with this title: ${pr.title}`);
         sendTestMessage(
           `An pull_request was opened by ${pr.user.login} with this title: ${pr.title}`
         );
+        (async () => {
+          const res = getResponseFromGPTByDiff(pr.url);
+          postComment(pr.issue_url + '/comments', res);
+          sendTestMessage(res);
+        })();
       } else if (action === 'reopened') {
         console.log(
           `An pull_request was reopened with this title: ${pr.title}`
@@ -114,6 +121,12 @@ const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
   // sendTestMessage('死者甦醒！');
+  // (async () => {
+  //   const res = await getResponseFromGPTByDiff(
+  //     'https://api.github.com/repos/okokschool/Alphateam/pulls/20'
+  //   );
+  //   console.log(res);
+  // })();
 });
 server.on('error', console.error);
 

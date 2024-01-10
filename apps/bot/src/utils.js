@@ -1,9 +1,53 @@
 import fetch from 'node-fetch';
 import { verifyKey } from 'discord-interactions';
 import schedule from 'node-schedule';
+import OpenAI from "openai";
+import rp from "request-promise";
+
+const openai = new OpenAI();
+
 
 const channelID = '1189445973445976064'; // 公布欄
 const testChannelID = '1192389879905140820';
+
+export async function getResponseFromGPTByDiff(url) {
+    try {
+        const diff = await fetchDiff(
+            url
+        );
+        const assignmentRequirements =
+            '重複操作 DOM、未正確使用 ES6 語法、命名是否良好、程式結構是否良好、是否有冗余的程式';
+        const prompt = `您是資深工程師，你正在幫下屬 code review，這是一份 github pull request 的 diff
+  
+      ${diff}
+      
+      請幫我著重在程式是否有遵照 Best pratice，並檢查一些常見問題，如${assignmentRequirements}
+      
+      給予回饋時，盡量直接把程式引用出來或是把你的建議用程式寫出來，不要給一些通用性的原則
+      
+      開頭請先簡單條列出你在這個程式發現的問題，之後再詳細解釋`;
+
+        const res = await queryOpenAIGPT4(prompt);
+        return `我是 Alban，我只是一台機器人而已，我說的話參考就好，一切還是依導師的回饋為主
+
+${res}`;
+    } catch (err) {
+        console.error(err);
+        if (err.status === 429) {
+            return 'Code 太長了我吃不下！檢查看看有沒有多推了什麼，比如 /node_modules';
+        }
+    }
+}
+
+export async function postComment(uri, content) {
+    console.log("post comment to uri:", uri);
+    const headers = {
+        'User-Agent': 'request',
+        Authorization: `token ${process.env.GITHUB_TOKEN}`,
+    }
+    const body = JSON.stringify({ "body": JSON.stringify(content) });
+    await rp({ method: 'POST', uri, body: body, headers });
+}
 
 export function setSchedule(time, callback, content) {
     const timeArray = convertStringToArray(time);
@@ -96,6 +140,31 @@ export function VerifyDiscordRequest(clientKey) {
             throw new Error('Bad request signature');
         }
     };
+}
+
+async function fetchDiff(url) {
+    try {
+        const res = await fetch(url, {
+            headers: {
+                'Accept': 'application/vnd.github.v3.diff',
+                Authorization: `token ${process.env.GITHUB_TOKEN}`,
+            },
+        });
+        const data = await res.text();
+        return data;
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
+
+async function queryOpenAIGPT4(promptText, model = "gpt-4") {
+    const completion = await openai.chat.completions.create({
+        messages: [{ role: "user", content: promptText }],
+        model
+    });
+
+    return completion.choices[0].message.content;
 }
 
 async function DiscordRequest(endpoint, options) {
