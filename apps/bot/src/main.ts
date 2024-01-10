@@ -83,7 +83,7 @@ app.post(
             '不准發 PR 到 main 分支喔！by Alban'
           );
           return;
-        } else if (compareBranch !== 'develop') {
+        } else if (baseBranch !== 'develop') {
           postComment(
             pr.issue_url + '/comments',
             '你把 PR 發到哪裡了？⋯⋯by Alban'
