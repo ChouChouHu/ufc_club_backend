@@ -28,8 +28,8 @@ ${diff}
 開頭請先簡單條列出你在這個程式發現的問題，之後再詳細解釋`;
 
         const res = await queryOpenAIGPT4(prompt);
-        return `我是 Alban，我只是一台機器人而已，我說的話參考就好，一切還是依導師的回饋為主
-
+        return `> 我是 Alban，我只是一台機器人而已，我說的話參考就好，一切還是依導師的回饋為主  
+  
 ${res}`;
     } catch (err) {
         if (err.status === 429) {
@@ -48,10 +48,10 @@ export async function postComment(uri, content) {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
     }
     const body = JSON.stringify({
-        "body": JSON.stringify(`""""""""""""""""""""
-
-${content}
-
+        "body": JSON.stringify(`""""""""""""""""""""  
+  
+${content}  
+  
 """"""""""""""""""""`)
     });
     await rp({ method: 'POST', uri, body: body, headers });
