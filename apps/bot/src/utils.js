@@ -7,8 +7,8 @@ import rp from "request-promise";
 const openai = new OpenAI();
 
 const assignmentRequirements = {
-    'w0p3': "CSS selector 是否正確運用、是否有應用適當的 html tag、html 是否重複撰寫、header 沒有固定位置、變數命名問題",
-    // '重複操作 DOM、未正確使用 ES6 語法、命名是否良好、程式結構是否良好、是否有冗余的程式';
+    'w0p3': "檢查 CSS selector 是否正確運用、是否有應用適當的 html tag、html 是否重複撰寫、header 有沒有固定位置，還有著重看變數以及 classname 命名是否恰當，可以忽略縮排的問題，並注意程式是否應用 sass",
+    // '並檢查一些常見問題，如重複操作 DOM、未正確使用 ES6 語法、命名是否良好、程式結構是否良好、是否有冗余的程式等等';
 }
 
 const channelID = '1189445973445976064'; // 公布欄
@@ -23,7 +23,7 @@ export async function getResponseFromGPTByDiff(url, assignmentName) {
 
 ${diff}
 
-請幫我著重在程式是否有遵照 Best pratice，並檢查一些常見問題，如${assignmentRequirements[assignmentName]}等等
+請幫我著重在程式是否有遵照 Best pratice，${assignmentRequirements[assignmentName]}
 
 給予回饋時，盡量直接把程式引用出來或是把你的建議用程式寫出來，不要給一些通用性的原則
 
