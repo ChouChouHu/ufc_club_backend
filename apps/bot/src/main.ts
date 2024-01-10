@@ -74,10 +74,10 @@ app.post(
       const pr = data.pull_request;
 
       if (action === 'opened') {
-        // const baseBranch = pr.base.ref.toLowerCase();
+        const baseBranch = pr.base.ref.toLowerCase();
         const compareBranch = pr.head.ref.toLowerCase();
 
-        if (compareBranch === 'main') {
+        if (baseBranch === 'main') {
           postComment(
             pr.issue_url + '/comments',
             '不准發 PR 到 main 分支喔！by Alban'
@@ -87,6 +87,14 @@ app.post(
           postComment(
             pr.issue_url + '/comments',
             '你把 PR 發到哪裡了？⋯⋯by Alban'
+          );
+          return;
+        }
+
+        if (!/^week_\d+_part_\d+$/.test(compareBranch)) {
+          postComment(
+            pr.issue_url + '/comments',
+            '請檢查你的 compare branch 命名是否為 week_x_part_y 格式喔！by Alban'
           );
           return;
         }
