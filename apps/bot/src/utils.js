@@ -48,11 +48,7 @@ export async function postComment(uri, content) {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
     }
     const body = JSON.stringify({
-        "body": `""""""""""""""""""""  
-  
-${content}  
-  
-""""""""""""""""""""`
+        "body": content
     });
     await rp({ method: 'POST', uri, body: body, headers });
 }
