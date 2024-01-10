@@ -105,7 +105,6 @@ app.post(
         (async () => {
           const res = await getResponseFromGPTByDiff(pr.url);
           postComment(pr.issue_url + '/comments', res);
-          sendTestMessage(res);
         })();
       } else if (action === 'reopened') {
         console.log(
