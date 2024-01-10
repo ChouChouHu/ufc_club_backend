@@ -18,14 +18,14 @@ export async function getResponseFromGPTByDiff(url) {
         const assignmentRequirements =
             '重複操作 DOM、未正確使用 ES6 語法、命名是否良好、程式結構是否良好、是否有冗余的程式';
         const prompt = `您是資深工程師，你正在幫下屬 code review，這是一份 github pull request 的 diff
-  
-      ${diff}
-      
-      請幫我著重在程式是否有遵照 Best pratice，並檢查一些常見問題，如${assignmentRequirements}
-      
-      給予回饋時，盡量直接把程式引用出來或是把你的建議用程式寫出來，不要給一些通用性的原則
-      
-      開頭請先簡單條列出你在這個程式發現的問題，之後再詳細解釋`;
+
+${diff}
+
+請幫我著重在程式是否有遵照 Best pratice，並檢查一些常見問題，如${assignmentRequirements}
+
+給予回饋時，盡量直接把程式引用出來或是把你的建議用程式寫出來，不要給一些通用性的原則
+
+開頭請先簡單條列出你在這個程式發現的問題，之後再詳細解釋`;
 
         const res = await queryOpenAIGPT4(prompt);
         return `我是 Alban，我只是一台機器人而已，我說的話參考就好，一切還是依導師的回饋為主
@@ -34,7 +34,7 @@ ${res}`;
     } catch (err) {
         if (err.status === 429) {
             console.log('OpenAI API 限制，請稍後再試');
-            return 'Code 太長了我吃不下！檢查看看有沒有多推了什麼，比如 /node_modules';
+            return `我只是個機器人，Code 太長了我吃不下！救命哪 @ChouChouHu`;
         }
         console.error(err);
         return '機器人公休';
@@ -47,7 +47,13 @@ export async function postComment(uri, content) {
         'User-Agent': 'request',
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
     }
-    const body = JSON.stringify({ "body": JSON.stringify(content) });
+    const body = JSON.stringify({
+        "body": JSON.stringify(`""""""""""""""""""""
+
+${content}
+
+""""""""""""""""""""`)
+    });
     await rp({ method: 'POST', uri, body: body, headers });
 }
 

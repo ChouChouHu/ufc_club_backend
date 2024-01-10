@@ -74,6 +74,16 @@ app.post(
       const pr = data.pull_request;
 
       if (action === 'opened') {
+        // const baseBranch = pr.base.ref.toLowerCase();
+        const compareBranch = pr.head.ref.toLowerCase();
+
+        if (compareBranch === 'main') {
+          postComment('不准發 PR 到 main 分支喔！');
+          return;
+        } else if (compareBranch !== 'develop') {
+          postComment('你把 PR 發到哪裡了？⋯⋯');
+          return;
+        }
         console.log(`An pull_request was opened with this title: ${pr.title}`);
         sendTestMessage(
           `An pull_request was opened by ${pr.user.login} with this title: ${pr.title}`
