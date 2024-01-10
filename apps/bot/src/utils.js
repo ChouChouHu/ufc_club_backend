@@ -8,7 +8,7 @@ const openai = new OpenAI();
 
 const assignmentRequirements = {
     'w0p3': "檢查 CSS selector 是否正確運用、是否有應用適當的 html tag、html 是否重複撰寫、header 有沒有固定位置，還有著重看變數以及 classname 命名是否恰當（可以建議使用 BEM 命名法），可以忽略縮排的問題，並注意程式是否應用 sass，沒有的話也可以建議應用。",
-    'w1p1': "檢查 DOM manipulate 是否冗余導致 redraw 頻繁，Javascript 的撰寫邏輯是否良好，變數命名是否恰當，以及是否有適當使用 ES6 語法"
+    'w1p1': "檢查 DOM manipulate 是否冗余導致 redraw 頻繁，Javascript 的撰寫邏輯是否良好，變數命名是否恰當（不用理會 classname），以及是否有適當使用 ES6 語法。另外，本功能本就希望用 JS 插入 HTML，所以不需就此點給建議"
     // '並檢查一些常見問題，如重複操作 DOM、未正確使用 ES6 語法、命名是否良好、程式結構是否良好、是否有冗余的程式等等';
 }
 
