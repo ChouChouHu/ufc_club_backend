@@ -79,7 +79,7 @@ app.post(
           `An pull_request was opened by ${pr.user.login} with this title: ${pr.title}`
         );
         (async () => {
-          const res = getResponseFromGPTByDiff(pr.url);
+          const res = await getResponseFromGPTByDiff(pr.url);
           postComment(pr.issue_url + '/comments', res);
           sendTestMessage(res);
         })();

@@ -32,12 +32,11 @@ export async function getResponseFromGPTByDiff(url) {
 
 ${res}`;
     } catch (err) {
-        console.error(err);
         if (err.status === 429) {
             console.log('OpenAI API 限制，請稍後再試');
             return 'Code 太長了我吃不下！檢查看看有沒有多推了什麼，比如 /node_modules';
         }
-        console.log('有點出錯');
+        console.error(err);
         return '機器人公休';
     }
 }
