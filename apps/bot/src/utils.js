@@ -6,22 +6,24 @@ import rp from "request-promise";
 
 const openai = new OpenAI();
 
+const assignmentRequirements = {
+    'w0p3': "CSS selector 是否正確運用、是否有應用適當的 html tag、html 是否重複撰寫、header 沒有固定位置、變數命名問題",
+    // '重複操作 DOM、未正確使用 ES6 語法、命名是否良好、程式結構是否良好、是否有冗余的程式';
+}
 
 const channelID = '1189445973445976064'; // 公布欄
 const testChannelID = '1192389879905140820';
 
-export async function getResponseFromGPTByDiff(url) {
+export async function getResponseFromGPTByDiff(url, assignmentName) {
     try {
         const diff = await fetchDiff(
             url
         );
-        const assignmentRequirements =
-            '重複操作 DOM、未正確使用 ES6 語法、命名是否良好、程式結構是否良好、是否有冗余的程式';
         const prompt = `您是資深工程師，你正在幫下屬 code review，這是一份 github pull request 的 diff
 
 ${diff}
 
-請幫我著重在程式是否有遵照 Best pratice，並檢查一些常見問題，如${assignmentRequirements}
+請幫我著重在程式是否有遵照 Best pratice，並檢查一些常見問題，如${assignmentRequirements[assignmentName]}等等
 
 給予回饋時，盡量直接把程式引用出來或是把你的建議用程式寫出來，不要給一些通用性的原則
 

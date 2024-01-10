@@ -98,12 +98,19 @@ app.post(
           );
           return;
         }
+
+        const assignmentName = compareBranch.split('-')[1];
+        if (assignmentName === 'w0p1' || assignmentName === 'w0p2') {
+          return;
+        }
+
         console.log(`An pull_request was opened with this title: ${pr.title}`);
         sendTestMessage(
           `An pull_request was opened by ${pr.user.login} with this title: ${pr.title}`
         );
+
         (async () => {
-          const res = await getResponseFromGPTByDiff(pr.url);
+          const res = await getResponseFromGPTByDiff(pr.url, assignmentName);
           postComment(pr.issue_url + '/comments', res);
         })();
       } else if (action === 'reopened') {
