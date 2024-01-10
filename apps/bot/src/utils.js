@@ -172,6 +172,8 @@ async function queryOpenAIGPT4(promptText, model = "gpt-4") {
         throw new Error(response);
     }
 
+    console.log(response);
+
     return response.choices[0].message.content;
 }
 
