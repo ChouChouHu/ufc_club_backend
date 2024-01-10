@@ -34,8 +34,10 @@ ${res}`;
     } catch (err) {
         console.error(err);
         if (err.status === 429) {
+            console.log('OpenAI API 限制，請稍後再試');
             return 'Code 太長了我吃不下！檢查看看有沒有多推了什麼，比如 /node_modules';
         }
+        console.log('有點出錯');
         return '機器人公休';
     }
 }
@@ -160,21 +162,16 @@ async function fetchDiff(url) {
 }
 
 async function queryOpenAIGPT4(promptText, model = "gpt-4") {
-    try {
-        const completion = await openai.chat.completions.create({
-            messages: [{ role: "user", content: promptText }],
-            model
-        });
-        return completion.choices[0].message.content;
-    }
-    catch (err) {
-        console.error(err);
-        if (err.status === 429) {
-            return 'Code 太長了我吃不下！檢查看看有沒有多推了什麼，比如 /node_modules';
-        }
+    const response = await openai.chat.completions.create({
+        messages: [{ role: "user", content: promptText }],
+        model
+    });
+
+    if (response.status !== 200) {
+        throw new Error(response);
     }
 
-
+    return response.choices[0].message.content;
 }
 
 async function DiscordRequest(endpoint, options) {
