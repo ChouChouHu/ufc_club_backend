@@ -78,10 +78,16 @@ app.post(
         const compareBranch = pr.head.ref.toLowerCase();
 
         if (compareBranch === 'main') {
-          postComment(pr.issue_url + '/comments', '不准發 PR 到 main 分支喔！');
+          postComment(
+            pr.issue_url + '/comments',
+            '不准發 PR 到 main 分支喔！by Alban'
+          );
           return;
         } else if (compareBranch !== 'develop') {
-          postComment(pr.issue_url + '/comments', '你把 PR 發到哪裡了？⋯⋯');
+          postComment(
+            pr.issue_url + '/comments',
+            '你把 PR 發到哪裡了？⋯⋯by Alban'
+          );
           return;
         }
         console.log(`An pull_request was opened with this title: ${pr.title}`);
