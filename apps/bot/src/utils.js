@@ -36,7 +36,7 @@ ${res}`;
             console.log('OpenAI API 限制，請稍後再試');
             return `我只是個機器人，Code 太長了我吃不下！救命哪 @ChouChouHu`;
         }
-        console.error(JSON.stringify(err.message));
+        console.error(err);
         return '機器人公休';
     }
 }
@@ -168,9 +168,9 @@ async function queryOpenAIGPT4(promptText, model = "gpt-4") {
         model
     });
 
-    console.log(response);
+    // console.log(response);
 
-    if (response.status !== 200) {
+    if (response.status === 429) {
         throw new Error(response);
     }
 
