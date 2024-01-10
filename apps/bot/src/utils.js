@@ -33,9 +33,10 @@ export async function getResponseFromGPTByDiff(url) {
 ${res}`;
     } catch (err) {
         console.error(err);
-        if (err.status === 429) {
+        if (err.status === 429 || err.code === 50035) {
             return 'Code 太長了我吃不下！檢查看看有沒有多推了什麼，比如 /node_modules';
         }
+        return '機器人公休';
     }
 }
 
