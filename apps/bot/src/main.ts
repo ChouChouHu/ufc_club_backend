@@ -94,7 +94,7 @@ app.post(
         if (!/^feature\/[a-zA-Z]+-w\d+p\d+$/.test(compareBranch)) {
           postComment(
             pr.issue_url + '/comments',
-            '請檢查你的 compare branch 命名是否為 week_x_part_y 格式喔！by Alban'
+            '請檢查你的 compare branch 命名是否為 feature/[your_name]-w[week number]p[part number] 格式喔！by Alban'
           );
           return;
         }
