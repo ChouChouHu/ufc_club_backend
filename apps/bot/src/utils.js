@@ -33,7 +33,7 @@ export async function getResponseFromGPTByDiff(url) {
 ${res}`;
     } catch (err) {
         console.error(err);
-        if (err.status === 429 || err.code === 50035) {
+        if (err.status === 429) {
             return 'Code 太長了我吃不下！檢查看看有沒有多推了什麼，比如 /node_modules';
         }
         return '機器人公休';
@@ -160,12 +160,21 @@ async function fetchDiff(url) {
 }
 
 async function queryOpenAIGPT4(promptText, model = "gpt-4") {
-    const completion = await openai.chat.completions.create({
-        messages: [{ role: "user", content: promptText }],
-        model
-    });
+    try {
+        const completion = await openai.chat.completions.create({
+            messages: [{ role: "user", content: promptText }],
+            model
+        });
+        return completion.choices[0].message.content;
+    }
+    catch (err) {
+        console.error(err);
+        if (err.status === 429) {
+            return 'Code 太長了我吃不下！檢查看看有沒有多推了什麼，比如 /node_modules';
+        }
+    }
 
-    return completion.choices[0].message.content;
+
 }
 
 async function DiscordRequest(endpoint, options) {
