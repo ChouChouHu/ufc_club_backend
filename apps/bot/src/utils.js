@@ -7,17 +7,21 @@ import rp from "request-promise";
 const openai = new OpenAI();
 
 const assignmentRequirements = {
-    'default': "並檢查一些常見問題，如命名是否良好、程式結構是否良好、是否有冗余的程式等等",
-    'w0p3': "檢查 CSS selector 是否正確運用、是否有應用適當的 html tag、html 是否重複撰寫、header 有沒有固定位置，還有著重看變數以及 classname 命名是否恰當（可以建議使用 BEM 命名法），可以忽略縮排的問題，並注意程式是否應用 sass，沒有的話也可以建議應用。",
-    'w1p1': "檢查 DOM manipulate 是否冗余導致 redraw 頻繁，Javascript 的撰寫邏輯是否良好，變數命名是否恰當（不用理會 classname），以及是否有適當使用 ES6 語法。另外，本功能本就希望用 JS 插入 HTML，所以不需就此點給建議。",
-    'w1p2': "檢查點擊 tab 或 nav 切換頁面時，是否有使用 ajax 相關技術來切換畫面，因為這樣可以避免頁面刷新遺失 state。另外也關注 js function 撰寫是否切分乾淨，讓耦合的情況降低。",
-    'w1p3': "不需建議他使用先進的框架（如 React.js），因為本程式本就需要用純 HTML 與 JS 實作。",
-    'w1p4': "這份程式在實作無限滾動，請幫我關注函數的切分夠不夠乾淨。",
-    'w1p5': "檔案與函數的切分是否足夠合理乾淨",
-
+    'default': "and check for common issues such as whether naming is good, the program structure is sound, and if there are any redundant codes, etc.",
+    'w0p3': "Check if CSS selectors are correctly applied, whether appropriate html tags are used, if there is repetitive html writing, whether the header has a fixed position, and focus on whether variables and class names are appropriately named (BEM naming convention can be suggested). Ignore indentation issues, and note if sass is applied or suggest its application.",
+    'w1p1': "Check if DOM manipulation causes frequent redrawing due to redundancy, whether Javascript is logically written, if variables are appropriately named (ignore class names), and whether ES6 syntax is properly used. Also, as this function intends to insert HTML with JS, no need to advise on this point.",
+    'w1p2': "Check if ajax related technology is used for changing pages when clicking tabs or navigation, as it helps avoid page refresh and state loss. Also, focus on whether js functions are neatly segmented to reduce coupling.",
+    'w1p3': "No need to suggest using advanced frameworks (such as React.js), as the program needs to be implemented with pure HTML and JS.",
+    'w1p4': "This program is implementing infinite scrolling, please focus on whether the function segmentation is clean enough.",
+    'w1p5': "Whether the segmentation of files and functions is sufficiently rational and clean",
+    'w2p2': "Whether it adheres to React and styled-component logic, and if Component naming is reasonable. No need to consider Redux, try to be brief.",
+    'w2p3': "Whether it adheres to React logic, and if React Hook usage is reasonable. No need to consider Redux, try to be concise.",
+    'w2p4': "Whether React Hook is appropriately used. Additionally, as this is an implementation of a shopping cart feature, focus on whether state operations are reasonable and if cookies or localStorage are used correctly.",
+    'w2p5': "The program mainly implements the interface, so just give suggestions on layout design or variable naming.",
+    'w3p1': "Focus on layout design, variable naming, and whether there are any bugs.",
 }
 
-const channelID = '1189445973445976064'; // 公布欄
+const channelID = '1189445973445976064'; // Announcement board
 const testChannelID = '1192389879905140820';
 
 export async function getResponseFromGPTByDiff(url, assignmentName = 'default') {
@@ -25,20 +29,24 @@ export async function getResponseFromGPTByDiff(url, assignmentName = 'default') 
         const diff = await fetchDiff(
             url
         );
-        const prompt = `您是資深工程師，你正在幫下屬 code review，這是一份 github pull request 的 diff
+        const prompt = `You are a senior engineer conducting a code review for a subordinate. This is a diff from a GitHub pull request:
 
 ${diff}
 
-請幫我著重在程式是否有遵照 Best pratice，${assignmentRequirements[assignmentName]}
+Please focus on whether the program adheres to Best practices, ${assignmentRequirements[assignmentName]}
 
-給予回饋時，盡量直接把程式引用出來或是把你的建議用程式寫出來，不要給一些通用性的原則
+When giving feedback, try to directly quote the code or write out your suggestions in code form, rather than providing generic principles.
 
-開頭請先簡單條列出你在這個程式發現的問題，之後再用程式碼詳細解釋`;
+Start by briefly listing the issues you found in this program, then explain in detail with code.
+
+Conclude with some encouragement.`;
 
         const res = await queryOpenAIGPT4(prompt);
-        return `> 我是 Alban，我只是一台機器人而已，我說的話參考就好，一切還是依導師的回饋為主  
+        return `> 我是 Alban，我只是一台機器人而已，我說的話參考就好，一切還是依導師的回饋為主。  
   
-${res}`;
+${res}
+  
+> AI 的建議不一定正確，請保持思辨能力與求證心態，若有疑問也可以在此 Comment 展開討論哦。`;
     } catch (err) {
         if (err.status === 429) {
             console.log('OpenAI API 限制，請稍後再試');
