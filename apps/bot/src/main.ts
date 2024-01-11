@@ -105,9 +105,7 @@ app.post(
         }
 
         console.log(`An pull_request was opened with this title: ${pr.title}`);
-        sendTestMessage(
-          `An pull_request was opened by ${pr.user.login} with this title: ${pr.title}`
-        );
+        sendTestMessage(`${pr.user.login} 交作業囉：${pr.title}`);
 
         (async () => {
           const res = await getResponseFromGPTByDiff(pr.url, assignmentName);
@@ -117,10 +115,12 @@ app.post(
         console.log(
           `An pull_request was reopened with this title: ${pr.title}`
         );
+        sendTestMessage(`${pr.user.login} 補交作業囉：${pr.title}`);
         sendTestMessage(
           `An pull_request was reopened by ${pr.user.login} with this title: ${pr.title}`
         );
       } else if (action === 'closed') {
+        if (pr.merged) return;
         sendTestMessage(`${pr.user.login} close 他的 ${pr.title} PR 了`);
       } else {
         console.log(`Unhandled action for the pull_request event: ${action}`);
