@@ -31,5 +31,7 @@ When giving feedback, try to directly quote the code or write out your suggestio
 
 Start by briefly listing the issues you found in this program, then explain in detail with code.
 
+Don't provide overly cumbersome or troublesome suggestions; focus on giving opinions on the key points.
+
 Conclude with some encouragement.`;
 };
