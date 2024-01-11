@@ -17,6 +17,8 @@
     "node-fetch": "2",
     "node-schedule": "^2.1.1",
     "openai": "^4.24.2",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
     "rp": "^0.2.0",
     "tslib": "^2.3.0"
   },

@@ -3,18 +3,21 @@ import { verifyKey } from 'discord-interactions';
 import schedule from 'node-schedule';
 import OpenAI from 'openai';
 import rp from 'request-promise';
+import { too_much_token } from './prompts';
 
 const openai = new OpenAI();
 
 const assignmentRequirements = {
   default:
     'And check for common issues such as whether naming is good, the program structure is sound, and if there are any redundant codes, etc.',
+  w0p2: 'Check if CSS selectors are correctly applied, whether appropriate html tags are used, whether the class names are appropriately named (BEM naming convention can be suggested)',
   w0p3: 'Check if CSS selectors are correctly applied, whether appropriate html tags are used, if there is repetitive html writing, whether the header has a fixed position, and focus on whether variables and class names are appropriately named (BEM naming convention can be suggested). Ignore indentation issues, and note if sass is applied or suggest its application.',
   w1p1: 'Check if DOM manipulation causes frequent redrawing due to redundancy, whether Javascript is logically written, if variables are appropriately named (ignore class names), and whether ES6 syntax is properly used. Also, as this function intends to insert HTML with JS, no need to advise on this point.',
   w1p2: 'Check if ajax related technology is used for changing pages when clicking tabs or navigation, as it helps avoid page refresh and state loss. Also, focus on whether js functions are neatly segmented to reduce coupling.',
   w1p3: 'No need to suggest using advanced frameworks (such as React.js), as the program needs to be implemented with pure HTML and JS.',
   w1p4: 'This program is implementing infinite scrolling, please focus on whether the function segmentation is clean enough.',
   w1p5: 'Whether the segmentation of files and functions is sufficiently rational and clean',
+  //   w2p1: 'Whether it adheres to React logic.',
   w2p2: 'Whether it adheres to React and styled-component logic, and if Component naming is reasonable. No need to consider Redux, try to be brief.',
   w2p3: 'Whether it adheres to React logic, and if React Hook usage is reasonable. No need to consider Redux, try to be concise.',
   w2p4: 'Whether React Hook is appropriately used. Additionally, as this is an implementation of a shopping cart feature, focus on whether state operations are reasonable and if cookies or localStorage are used correctly.',
@@ -48,6 +51,7 @@ Start by briefly listing the issues you found in this program, then explain in d
 
 Conclude with some encouragement.`;
 
+    console.log('收到 PR，開始 Code Review');
     const res = await queryOpenAIGPT(prompt, model);
     return `> 我是 Alban，我只是一台機器人而已，我說的話參考就好，一切還是依導師的回饋為主。  
   
@@ -56,14 +60,16 @@ ${res}
 > AI 的建議不一定正確，請保持思辨能力與求證心態，若有疑問也可以在此 Comment 展開討論哦。`;
   } catch (err) {
     if (err.status === 429 && model === 'gpt-4') {
+      console.log('GPT-4 API 限制，改用 GPT-3.5');
       return getResponseFromGPTByDiff(
         url,
         assignmentName,
         'gpt-3.5-turbo-1106'
       );
-    } else if (err.status === 429 && model !== 'gpt-4') {
-      console.log('OpenAI API 限制，請稍後再試');
-      return `我只是個機器人，Code 太長了我吃不下！救命哪 @ChouChouHu`;
+    } else if (err.status === 429 || err.status === 400) {
+      console.error('Token 數超過 OpenAI API 限制');
+      console.error(err);
+      return too_much_token;
     }
     console.error(err);
     return '機器人公休';

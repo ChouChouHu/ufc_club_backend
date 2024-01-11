@@ -17,6 +17,7 @@ import {
   remote_week_3,
   remote_week_4,
 } from './messages';
+import { too_much_token } from './prompts';
 
 const app = express();
 // const githubToken = process.env.GITHUB_TOKEN;
@@ -80,7 +81,7 @@ app.post(
         if (baseBranch === 'main') {
           postComment(
             pr.issue_url + '/comments',
-            '不准發 PR 到 main 分支喔！by Alban'
+            '不可以發 PR 到 main branch 喔！by Alban'
           );
           return;
         } else if (baseBranch !== 'develop') {
@@ -99,23 +100,25 @@ app.post(
           return;
         }
 
+        console.log(`An pull_request was opened with this title: ${pr.title}`);
+        sendTestMessage(`${pr.user.login} 交作業囉：${pr.title}`);
+
         const assignmentName = compareBranch.split('-')[1];
-        if (assignmentName === 'w0p1' || assignmentName === 'w0p2') {
-          // these two assignment are not required to be checked
+        if (!assignmentName) return;
+        if (assignmentName === 'w0p1') {
+          // first assignment is not required to be checked
           return;
         }
         if (assignmentName === 'w2p1') {
           postComment(
             pr.issue_url + '/comments',
-            'initial react 的程式碼太多了，機器人公休⋯⋯by Alban'
+            'initial react 的程式碼太多了，我們還是不要壓榨機器人吧：）⋯⋯by Alban'
           );
           return;
         }
 
-        console.log(`An pull_request was opened with this title: ${pr.title}`);
-        sendTestMessage(`${pr.user.login} 交作業囉：${pr.title}`);
-
         const res = await getResponseFromGPTByDiff(pr.url, assignmentName);
+        if (assignmentName === 'w0p2' && res === too_much_token) return;
         postComment(pr.issue_url + '/comments', res);
       } else if (action === 'reopened') {
         console.log(
@@ -156,13 +159,14 @@ app.post(
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
-  // sendTestMessage('死者甦醒！');
-  // (async () => {
-  //   const res = await getResponseFromGPTByDiff(
-  //     'https://api.github.com/repos/okokschool/Alphateam/pulls/20'
-  //   );
-  //   console.log(res);
-  // })();
+  sendTestMessage('死者甦醒！');
+  (async () => {
+    const res = await getResponseFromGPTByDiff(
+      'https://api.github.com/repos/AppWorks-School-Materials/Front-End-Class-Batch22/pulls/101',
+      'w0p2'
+    );
+    console.log(res);
+  })();
 });
 server.on('error', console.error);
 
