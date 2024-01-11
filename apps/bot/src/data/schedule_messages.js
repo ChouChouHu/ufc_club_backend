@@ -1,5 +1,8 @@
-export const remote_week_1 = `
-早安，遠距第一週作業來囉
+const roleFrontend = '<@&1189113826243792956>';
+
+export default [
+  {
+    content: `${roleFrontend} 早安，遠距第一週作業來囉
 
 > [Week1 Assignment](https://drive.google.com/file/d/1-Vkim3go6l2Q25aKGeG1kyebl7DiENNP/view?usp=sharing)
 
@@ -12,10 +15,11 @@ Git 是軟體工程師非常重要的工具，會伴隨著軟體工程師一輩�
 ❗️作業的內容是由 AppWorks School 設計給學員的練習，因此請不要散佈外流。另外，作業嚴禁抄襲，如發現抄襲狀況，不排除強制退學。
 
 看到這則訊息請幫我按個 Emoji，讓我知道你有看到這則訊息
-`;
-
-export const remote_week_2 = `
-恭喜各位完成了第一週的作業，緊接著第二週的作業來囉！
+        `,
+    time: '1-10 9:00',
+  },
+  {
+    content: `${roleFrontend} 恭喜各位完成了第一週的作業，緊接著第二週的作業來囉！
 
 > [Week2 Assignment](https://drive.google.com/file/d/10k6Oqin70dzYDazosfGC_Bd-kxmNFUNu/view?usp=sharing)
 
@@ -24,10 +28,11 @@ export const remote_week_2 = `
 > 請大家在 **1/23（二）23:59** 前提交[這份表單](https://forms.gle/6zn9GY9vWL7EmjiQ8) 。請在原本的 repo 底下開一個 week-2 的資料夾，並將第一週的網頁複製過去做延伸，如果有新的檔案也一起放在 week-2 的資料夾裡。
 
 看到這則訊息請幫我按個 Emoji，讓我知道你有看到這則訊息
-`;
-
-export const remote_week_3 = `
-恭喜各位走到遠距學習的一半，第三週的作業接著來囉！
+        `,
+    time: '1-17 9:00',
+  },
+  {
+    content: `${roleFrontend} 恭喜各位走到遠距學習的一半，第三週的作業接著來囉！
 
 > [Week3 Assignment](https://drive.google.com/file/d/14gsxxX2So8imYUrP0GWVmRP07mbw8_NM/view?usp=sharing)
 
@@ -38,10 +43,11 @@ export const remote_week_3 = `
 由於這一次的作業相較困難，如果有遇到問題卡太久要儘快到 #班級頻道 或 #school-stack-oveflow提出討論喔～
 
 看到這則訊息請幫我按個 Emoji，讓我知道你有看到這則訊息
-`;
-
-export const remote_week_4 = `
-遠距學習最後一週的作業來囉！
+        `,
+    time: '1-24 9:00',
+  },
+  {
+    content: `${roleFrontend} 遠距學習最後一週的作業來囉！
 
 > [Week4 Assignment](https://drive.google.com/file/d/1AIxdLSsQYpo_DnNXzx_vFxhJH1P-h1Rf/view?usp=sharing)
 
@@ -50,4 +56,7 @@ export const remote_week_4 = `
 > 請大家在 **2/6（二）23:59** 前提交[這份表單](https://forms.gle/f6WeR45KUD9RuXkv6)
 
 看到這則訊息請幫我按個 Emoji，讓我知道你有看到這則訊息
-`;
+        `,
+    time: '1-31 9:00',
+  },
+];
