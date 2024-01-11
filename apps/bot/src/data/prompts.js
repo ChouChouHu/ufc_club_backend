@@ -9,12 +9,12 @@ const assignmentRequirements = {
   w1p4: 'This program is implementing infinite scrolling, please focus on whether the function segmentation is clean enough.',
   w1p5: 'Whether the segmentation of files and functions is sufficiently rational and clean',
   //   w2p1: 'Whether it adheres to React logic.',
-  w2p2: 'Whether it adheres to React and styled-component logic, and if Component naming is reasonable. No need to consider Redux, try to be brief.',
-  w2p3: 'Whether it adheres to React logic, and if React Hook usage is reasonable. No need to consider Redux, try to be concise.',
+  w2p2: 'Whether it adheres to React and styled-component logic, and if Component naming is reasonable. No need to consider Redux.',
+  w2p3: 'Whether it adheres to React logic, and if React Hook usage is reasonable. No need to consider Redux',
   w2p4: 'Whether React Hook is appropriately used. Additionally, as this is an implementation of a shopping cart feature, focus on whether state operations are reasonable and if cookies or localStorage are used correctly.',
   w2p5: 'The program mainly implements the interface, so just give suggestions on layout design or variable naming.',
   w3p1: 'Focus on layout design, variable naming, and whether there are any bugs.',
-  w3p2: 'Especially for this code implementing the form, please pay attention to the implementation status and try to be as concise as possible.',
+  w3p2: 'Especially for this code implementing the form, please pay attention to the implementation status.',
   w3p3: 'Focus on the process of logging into Facebook and obtaining a token for the backend API.',
   w3p4: 'Focus on using tappay to submit credit card information for shopping verification.',
   w3p5: 'Focus on Google Analytics, SEO Consideration, Cross-Browser Testing.',
@@ -27,11 +27,8 @@ ${diff}
 
 Please focus on whether the program adheres to Best practices. ${assignmentRequirements[assignmentName]}
 
-When giving feedback, try to directly quote the code or write out your suggestions in code form, rather than providing generic principles.
-
-Start by briefly listing the issues you found in this program, then explain in detail with code.
-
-Don't provide overly cumbersome or troublesome suggestions; focus on giving opinions on the key points.
-
-Conclude with some encouragement.`;
+Follow these rules:
+- When giving feedback, try to directly quote the code or write out your suggestions in code form, rather than providing generic principles.
+- Start by briefly listing the key points you found in this program, then explain in detail with code.
+- Try to be as brief as possible`;
 };
