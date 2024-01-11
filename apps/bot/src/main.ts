@@ -65,7 +65,7 @@ app.get('/set_schedule', (req, res) => {
 app.post(
   '/pull_request',
   express.json({ type: 'application/json' }),
-  (req, res) => {
+  async (req, res) => {
     res.status(202).send('Accepted');
     const githubEvent = req.headers['x-github-event'];
     if (githubEvent === 'pull_request') {
@@ -101,16 +101,15 @@ app.post(
 
         const assignmentName = compareBranch.split('-')[1];
         if (assignmentName === 'w0p1' || assignmentName === 'w0p2') {
+          // these two assignment are not required to be submitted
           return;
         }
 
         console.log(`An pull_request was opened with this title: ${pr.title}`);
         sendTestMessage(`${pr.user.login} 交作業囉：${pr.title}`);
 
-        (async () => {
-          const res = await getResponseFromGPTByDiff(pr.url, assignmentName);
-          postComment(pr.issue_url + '/comments', res);
-        })();
+        const res = await getResponseFromGPTByDiff(pr.url, assignmentName);
+        postComment(pr.issue_url + '/comments', res);
       } else if (action === 'reopened') {
         console.log(
           `An pull_request was reopened with this title: ${pr.title}`
