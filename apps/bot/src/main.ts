@@ -2,7 +2,7 @@ import express from 'express';
 import * as path from 'path';
 import { InteractionResponseType, InteractionType } from 'discord-interactions';
 import { setSchedule, isTimeEarlierThanNow } from './utils';
-import { isPRValid, postComment } from './external_services/github_api';
+import { isPRUnvalid, postComment } from './external_services/github_api';
 import { getResponseFromGPT } from './external_services/openai_api';
 import {
   VerifyDiscordRequest,
@@ -29,9 +29,14 @@ app.post(
       const data = req.body;
       const action = data.action;
       const pr = data.pull_request;
+      const unvalidMessage = isPRUnvalid(pr);
 
       if (action === 'opened') {
-        if (isPRValid(pr) === false) return;
+        if (unvalidMessage) {
+          postComment(pr.issue_url + '/comments', unvalidMessage);
+          return;
+        }
+
         console.log(`An pull_request was opened with this title: ${pr.title}`);
         sendTestMessage(
           `**${pr.user.login}** 交作業囉：[${pr.title}](${pr.html_url})`
@@ -51,6 +56,7 @@ app.post(
         if (assignmentName === 'w0p2' && res === TOO_MUCH_TOKEN) return; // no need to send comment when w0p2 is too long
         postComment(pr.issue_url + '/comments', res);
       } else if (action === 'reopened') {
+        if (unvalidMessage) return;
         console.log(
           `An pull_request was reopened with this title: ${pr.title}`
         );
@@ -58,7 +64,7 @@ app.post(
           `**${pr.user.login}** 補交作業囉：[${pr.title}](${pr.html_url})}`
         );
       } else if (action === 'closed') {
-        if (pr.merged) return;
+        if (pr.merged || unvalidMessage) return;
         sendTestMessage(
           `**${pr.user.login}** close 他的 ${pr.title} PR 了，看來是決定要再改改了`
         );

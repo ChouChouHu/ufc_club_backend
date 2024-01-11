@@ -2,7 +2,7 @@ const assignmentRequirements = {
   default:
     'And check for common issues such as whether naming is good, the program structure is sound, and if there are any redundant codes, etc.',
   w0p2: 'Check if CSS selectors are correctly applied, whether appropriate html tags are used, whether the class names are appropriately named (BEM naming convention can be suggested)',
-  w0p3: 'Check if CSS selectors are correctly applied, whether appropriate html tags are used, if there is repetitive html writing, whether the header has a fixed position, and focus on whether variables and class names are appropriately named (BEM naming convention can be suggested). Ignore indentation issues, and note if sass is applied or suggest its application.',
+  w0p3: 'Check if CSS selectors are correctly applied, whether appropriate html tags are used, if there is repetitive html writing, and focus on whether variables and class names are appropriately named (BEM naming convention can be suggested). Ignore indentation issues, and note if sass is applied or suggest its application.',
   w1p1: 'Check if DOM manipulation causes frequent redrawing due to redundancy, whether Javascript is logically written, if variables are appropriately named (ignore class names), and whether ES6 syntax is properly used. Also, as this function intends to insert HTML with JS, no need to advise on this point.',
   w1p2: 'Check if ajax related technology is used for changing pages when clicking tabs or navigation, as it helps avoid page refresh and state loss. Also, focus on whether js functions are neatly segmented to reduce coupling.',
   w1p3: 'No need to suggest using advanced frameworks (such as React.js), as the program needs to be implemented with pure HTML and JS.',
