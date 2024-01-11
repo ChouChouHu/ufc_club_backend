@@ -101,7 +101,14 @@ app.post(
 
         const assignmentName = compareBranch.split('-')[1];
         if (assignmentName === 'w0p1' || assignmentName === 'w0p2') {
-          // these two assignment are not required to be submitted
+          // these two assignment are not required to be checked
+          return;
+        }
+        if (assignmentName === 'w2p1') {
+          postComment(
+            pr.issue_url + '/comments',
+            'initial react 的程式碼太多了，機器人公休⋯⋯by Alban'
+          );
           return;
         }
 

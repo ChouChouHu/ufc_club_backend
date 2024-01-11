@@ -7,16 +7,20 @@ import rp from "request-promise";
 const openai = new OpenAI();
 
 const assignmentRequirements = {
+    'default': "並檢查一些常見問題，如命名是否良好、程式結構是否良好、是否有冗余的程式等等",
     'w0p3': "檢查 CSS selector 是否正確運用、是否有應用適當的 html tag、html 是否重複撰寫、header 有沒有固定位置，還有著重看變數以及 classname 命名是否恰當（可以建議使用 BEM 命名法），可以忽略縮排的問題，並注意程式是否應用 sass，沒有的話也可以建議應用。",
     'w1p1': "檢查 DOM manipulate 是否冗余導致 redraw 頻繁，Javascript 的撰寫邏輯是否良好，變數命名是否恰當（不用理會 classname），以及是否有適當使用 ES6 語法。另外，本功能本就希望用 JS 插入 HTML，所以不需就此點給建議。",
-    'w1p2': "檢查點擊 tab 或 nav 切換頁面時，是否有使用 ajax 相關技術來切換畫面，因為這樣可以避免頁面刷新遺失 state。另外也關注 js function 撰寫是否切分乾淨，讓耦合的情況降低。"
-    // '並檢查一些常見問題，如重複操作 DOM、未正確使用 ES6 語法、命名是否良好、程式結構是否良好、是否有冗余的程式等等';
+    'w1p2': "檢查點擊 tab 或 nav 切換頁面時，是否有使用 ajax 相關技術來切換畫面，因為這樣可以避免頁面刷新遺失 state。另外也關注 js function 撰寫是否切分乾淨，讓耦合的情況降低。",
+    'w1p3': "不需建議他使用先進的框架（如 React.js），因為本程式本就需要用純 HTML 與 JS 實作。",
+    'w1p4': "這份程式在實作無限滾動，請幫我關注函數的切分夠不夠乾淨。",
+    'w1p5': "檔案與函數的切分是否足夠合理乾淨",
+
 }
 
 const channelID = '1189445973445976064'; // 公布欄
 const testChannelID = '1192389879905140820';
 
-export async function getResponseFromGPTByDiff(url, assignmentName) {
+export async function getResponseFromGPTByDiff(url, assignmentName = 'default') {
     try {
         const diff = await fetchDiff(
             url
