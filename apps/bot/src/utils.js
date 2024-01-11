@@ -19,6 +19,10 @@ const assignmentRequirements = {
     'w2p4': "Whether React Hook is appropriately used. Additionally, as this is an implementation of a shopping cart feature, focus on whether state operations are reasonable and if cookies or localStorage are used correctly.",
     'w2p5': "The program mainly implements the interface, so just give suggestions on layout design or variable naming.",
     'w3p1': "Focus on layout design, variable naming, and whether there are any bugs.",
+    'w3p2': "Especially for this code implementing the form, please pay attention to the implementation status and try to be as concise as possible.",
+    'w3p3': "Focus on the process of logging into Facebook and obtaining a token for the backend API.",
+    'w3p4': "Focus on using tappay to submit credit card information for shopping verification.",
+    'w3p5': "Focus on Google Analytics, SEO Consideration, Cross-Browser Testing."
 }
 
 const channelID = '1189445973445976064'; // Announcement board
