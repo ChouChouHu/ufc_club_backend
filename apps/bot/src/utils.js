@@ -8,7 +8,7 @@ const openai = new OpenAI();
 
 const assignmentRequirements = {
   default:
-    'and check for common issues such as whether naming is good, the program structure is sound, and if there are any redundant codes, etc.',
+    'And check for common issues such as whether naming is good, the program structure is sound, and if there are any redundant codes, etc.',
   w0p3: 'Check if CSS selectors are correctly applied, whether appropriate html tags are used, if there is repetitive html writing, whether the header has a fixed position, and focus on whether variables and class names are appropriately named (BEM naming convention can be suggested). Ignore indentation issues, and note if sass is applied or suggest its application.',
   w1p1: 'Check if DOM manipulation causes frequent redrawing due to redundancy, whether Javascript is logically written, if variables are appropriately named (ignore class names), and whether ES6 syntax is properly used. Also, as this function intends to insert HTML with JS, no need to advise on this point.',
   w1p2: 'Check if ajax related technology is used for changing pages when clicking tabs or navigation, as it helps avoid page refresh and state loss. Also, focus on whether js functions are neatly segmented to reduce coupling.',
@@ -31,7 +31,8 @@ const testChannelID = '1192389879905140820';
 
 export async function getResponseFromGPTByDiff(
   url,
-  assignmentName = 'default'
+  assignmentName = 'default',
+  model = 'gpt-4'
 ) {
   try {
     const diff = await fetchDiff(url);
@@ -39,7 +40,7 @@ export async function getResponseFromGPTByDiff(
 
 ${diff}
 
-Please focus on whether the program adheres to Best practices, ${assignmentRequirements[assignmentName]}
+Please focus on whether the program adheres to Best practices. ${assignmentRequirements[assignmentName]}
 
 When giving feedback, try to directly quote the code or write out your suggestions in code form, rather than providing generic principles.
 
@@ -47,14 +48,20 @@ Start by briefly listing the issues you found in this program, then explain in d
 
 Conclude with some encouragement.`;
 
-    const res = await queryOpenAIGPT4(prompt);
+    const res = await queryOpenAIGPT(prompt, model);
     return `> 我是 Alban，我只是一台機器人而已，我說的話參考就好，一切還是依導師的回饋為主。  
   
 ${res}
   
 > AI 的建議不一定正確，請保持思辨能力與求證心態，若有疑問也可以在此 Comment 展開討論哦。`;
   } catch (err) {
-    if (err.status === 429) {
+    if (err.status === 429 && model === 'gpt-4') {
+      return getResponseFromGPTByDiff(
+        url,
+        assignmentName,
+        'gpt-3.5-turbo-1106'
+      );
+    } else if (err.status === 429 && model !== 'gpt-4') {
       console.log('OpenAI API 限制，請稍後再試');
       return `我只是個機器人，Code 太長了我吃不下！救命哪 @ChouChouHu`;
     }
@@ -182,7 +189,7 @@ async function fetchDiff(url) {
   }
 }
 
-async function queryOpenAIGPT4(promptText, model = 'gpt-4') {
+async function queryOpenAIGPT(promptText, model) {
   const response = await openai.chat.completions.create({
     messages: [{ role: 'user', content: promptText }],
     model,
