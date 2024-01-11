@@ -61,7 +61,7 @@ app.post(
           `An pull_request was reopened with this title: ${pr.title}`
         );
         sendTestMessage(
-          `**${pr.user.login}** 補交作業囉：[${pr.title}](${pr.html_url})}`
+          `**${pr.user.login}** 補交作業囉：[${pr.title}](${pr.html_url}}`
         );
       } else if (action === 'closed') {
         if (pr.merged || unvalidMessage) return;
