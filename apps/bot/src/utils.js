@@ -8,7 +8,8 @@ const openai = new OpenAI();
 
 const assignmentRequirements = {
     'w0p3': "檢查 CSS selector 是否正確運用、是否有應用適當的 html tag、html 是否重複撰寫、header 有沒有固定位置，還有著重看變數以及 classname 命名是否恰當（可以建議使用 BEM 命名法），可以忽略縮排的問題，並注意程式是否應用 sass，沒有的話也可以建議應用。",
-    'w1p1': "檢查 DOM manipulate 是否冗余導致 redraw 頻繁，Javascript 的撰寫邏輯是否良好，變數命名是否恰當（不用理會 classname），以及是否有適當使用 ES6 語法。另外，本功能本就希望用 JS 插入 HTML，所以不需就此點給建議"
+    'w1p1': "檢查 DOM manipulate 是否冗余導致 redraw 頻繁，Javascript 的撰寫邏輯是否良好，變數命名是否恰當（不用理會 classname），以及是否有適當使用 ES6 語法。另外，本功能本就希望用 JS 插入 HTML，所以不需就此點給建議。",
+    'w1p2': "檢查點擊 tab 或 nav 切換頁面時，是否有使用 ajax 相關技術來切換畫面，因為這樣可以避免頁面刷新遺失 state。另外也關注 js function 撰寫是否切分乾淨，讓耦合的情況降低。"
     // '並檢查一些常見問題，如重複操作 DOM、未正確使用 ES6 語法、命名是否良好、程式結構是否良好、是否有冗余的程式等等';
 }
 
@@ -28,7 +29,7 @@ ${diff}
 
 給予回饋時，盡量直接把程式引用出來或是把你的建議用程式寫出來，不要給一些通用性的原則
 
-開頭請先簡單條列出你在這個程式發現的問題，之後再詳細解釋`;
+開頭請先簡單條列出你在這個程式發現的問題，之後再用程式碼詳細解釋`;
 
         const res = await queryOpenAIGPT4(prompt);
         return `> 我是 Alban，我只是一台機器人而已，我說的話參考就好，一切還是依導師的回饋為主  
