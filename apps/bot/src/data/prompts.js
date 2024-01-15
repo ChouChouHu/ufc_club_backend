@@ -5,7 +5,7 @@ const assignmentRequirements = {
   w0p3: 'Check if CSS selectors are correctly applied, whether appropriate html tags are used, if there is repetitive html writing, and focus on whether variables and class names are appropriately named (BEM naming convention can be suggested). Ignore indentation issues, and note if sass is applied or suggest its application.',
   w1p1: 'Check if DOM manipulation causes frequent redrawing due to redundancy, whether Javascript is logically written, if variables are appropriately named (ignore class names), and whether ES6 syntax is properly used. Also, as this function intends to insert HTML with JS, no need to advise on this point.',
   w1p2: 'Check if ajax related technology is used for changing pages when clicking tabs or navigation, as it helps avoid page refresh and state loss. Also, focus on whether js functions are neatly segmented to reduce coupling.',
-  w1p3: 'No need to suggest using advanced frameworks (such as React.js), as the program needs to be implemented with pure HTML and JS.',
+  w1p3: 'No need to suggest using advanced frameworks (such as React.js).',
   w1p4: 'This program is implementing infinite scrolling, please focus on whether the function segmentation is clean enough.',
   w1p5: 'Whether the segmentation of files and functions is sufficiently rational and clean',
   //   w2p1: 'Whether it adheres to React logic.',
@@ -28,7 +28,6 @@ ${diff}
 Please focus on whether the program adheres to Best practices. ${assignmentRequirements[assignmentName]}
 
 Follow these rules:
-- When giving feedback, try to directly quote the code or write out your suggestions in code form, rather than providing generic principles.
-- Start by briefly listing the key points you found in this program, then explain in detail with code.
-- Try to be as brief as possible`;
+- Start by listing three key points related to this program, just list the titles. Then, explain the content directly using code, written inside markdown backticks."
+- End with this sentence pattern: 'You can go look up...'. Include three technical keywords so your subordinates can have a direction to refer to.`;
 };
