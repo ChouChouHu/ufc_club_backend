@@ -1,6 +1,48 @@
 import schedule from 'node-schedule';
 import { sendTestMessage } from './external_services/discord_api';
 
+export function getAssignmentExpiredDate(
+  assignmentName,
+  startDate = '2024-02-21'
+) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(assignmentName)) return;
+  // 將起始日期分解為年、月、日
+  let [startYear, startMonth, startDay] = startDate.split('-').map(Number);
+  startDay += 5; // 起始日期為週三，加上五天為隔週一
+
+  // 將 wxpy 字串中的周數和部分數字提取出來
+  const weekNumber = parseInt(assignmentName.charAt(1), 10);
+  const partNumber = parseInt(assignmentName.charAt(3), 10);
+
+  // 計算該月第一天的日期
+  const firstDayOfMonth = new Date(startYear, startMonth - 1, startDay);
+
+  // 根據 wxpy 計算目標日期
+  const targetDate = new Date(firstDayOfMonth);
+  targetDate.setDate(
+    firstDayOfMonth.getDate() +
+      (weekNumber - 1) * 7 +
+      partNumber +
+      (weekNumber === 0 ? 2 : 0) // week0 start from Wednesday
+  );
+
+  // 格式化日期為 'yyyy-mm-dd'
+  const formattedDate = targetDate.toISOString().split('T')[0];
+  return formattedDate;
+}
+
+export function isDatePassed(inputDate) {
+  if (!inputDate) return;
+  const givenDate = new Date(inputDate);
+  const currentDate = new Date();
+
+  // Calculate the difference in days
+  const diffDays = (currentDate - givenDate) / (1000 * 60 * 60 * 24);
+
+  // Check if the current date is at least two days after the given date
+  return diffDays > 2;
+}
+
 export function setSchedule(time, callback, content) {
   const timeArray = convertStringToArray(time);
   const scheduledTime = new Date(

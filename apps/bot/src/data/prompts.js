@@ -8,7 +8,7 @@ const assignmentRequirements = {
   w1p3: 'No need to suggest using advanced frameworks (such as React.js).',
   w1p4: 'This program is implementing infinite scrolling, please focus on whether the function segmentation is clean enough.',
   w1p5: 'Whether the segmentation of files and functions is sufficiently rational and clean',
-  //   w2p1: 'Whether it adheres to React logic.',
+  w2p1: 'Whether it adheres to React logic.',
   w2p2: 'Whether it adheres to React and styled-component logic, and if Component naming is reasonable. No need to consider Redux.',
   w2p3: 'Whether it adheres to React logic, and if React Hook usage is reasonable. No need to consider Redux',
   w2p4: 'Whether React Hook is appropriately used. Additionally, as this is an implementation of a shopping cart feature, focus on whether state operations are reasonable and if cookies or localStorage are used correctly.',
@@ -20,14 +20,23 @@ const assignmentRequirements = {
   w3p5: 'Focus on Google Analytics, SEO Consideration, Cross-Browser Testing.',
 };
 
-export const getPrompt = (diff, assignmentName) => {
+const lowerStandard =
+  'Do not be too demanding; if there are no major issues, just offer encouragement.';
+
+export const getPrompt = (diff, assignmentName, isExpired) => {
   return `You are a senior engineer conducting a code review for a subordinate. This is a diff from a GitHub pull request:
 
 ${diff}
 
-Please focus on whether the program adheres to Best practices. ${assignmentRequirements[assignmentName]}
+Please focus on whether the program adheres to Best practices. ${
+    assignmentRequirements[assignmentName]
+  }
 
-Follow these rules:
+${
+  isExpired
+    ? lowerStandard
+    : `Follow these rules:
 - Start with this sentence pattern: 'Here are some suggestions...' By listing 1~5 key problems related to this program, just list the titles. Then, explain the content directly using code, written inside markdown backticks."
-- End with this sentence pattern: 'You can go look up...' Include 1~5 technical keywords so your subordinates can have a direction to refer to.`;
+- End with this sentence pattern: 'You can go look up...' Include 1~5 technical keywords so your subordinates can have a direction to refer to.`
+}`;
 };

@@ -2,6 +2,7 @@ import OpenAI from 'openai';
 import { getPrompt } from '../data/prompts';
 import { TOO_MUCH_TOKEN } from '../data/comments';
 import { getAnwer } from '../data/comments';
+import { getAssignmentExpiredDate, isDatePassed } from '../utils';
 
 const openai = new OpenAI();
 
@@ -12,7 +13,8 @@ export async function getResponseFromGPT(
 ) {
   try {
     const diff = await fetchDiff(url);
-    const prompt = getPrompt(diff, assignmentName);
+    const expiredDate = getAssignmentExpiredDate(assignmentName);
+    const prompt = getPrompt(diff, assignmentName, isDatePassed(expiredDate));
 
     console.log('收到 PR，開始 Code Review');
     const res = await queryOpenAIGPT(prompt, model);
