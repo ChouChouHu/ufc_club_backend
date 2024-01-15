@@ -28,7 +28,7 @@ export const getPrompt = (diff, assignmentName, isExpired) => {
 
 ${diff}
 
-Please focus on whether the program adheres to Best practices. ${
+Please focus on whether the program adheres to Best practices(ignore line breaks and indentation). ${
     assignmentRequirements[assignmentName]
   }
 
