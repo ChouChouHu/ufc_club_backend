@@ -103,10 +103,17 @@ const server = app.listen(port, () => {
   (async () => {
     try {
       await setDailyMessage();
+
       schedule_messages.forEach((message) => {
         if (isTimeEarlierThanNow(message.time)) return;
         setSchedule(message.time, sendMessage, message.content);
       });
+
+      const ePortfolioMeme = '[E-Portfolio](https://i.imgur.com/K1dU4jX.png)';
+      setSchedule('1-23 12:00', sendMessage, ePortfolioMeme);
+      setSchedule('1-30 12:00', sendMessage, ePortfolioMeme);
+      setSchedule('2-6 12:00', sendMessage, ePortfolioMeme);
+
       await sendTestMessage(`${roleTester} Bot is up and running!`);
     } catch (e) {
       console.log(e);
