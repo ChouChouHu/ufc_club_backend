@@ -103,6 +103,7 @@ const server = app.listen(port, () => {
     try {
       const classChannelID = '1189446040168960090'; // #班級頻道
       const lifeChannelID = '1189446109563727903'; // #生活頻道
+      const dataChannelID = '1189498873404727326'; // #班級頻道 ( DATA )
       const roleFrontend = '<@&1189113826243792956>'; // @Front-End
       const roleTester = '<@&1193794222269136938>'; // @Tester
 
@@ -117,6 +118,9 @@ const server = app.listen(port, () => {
       setSchedule('1-23 12:00', sendMessage, ePortfolioMeme, classChannelID);
       setSchedule('1-30 12:00', sendMessage, ePortfolioMeme, classChannelID);
       setSchedule('2-6 12:00', sendMessage, ePortfolioMeme, classChannelID);
+      setSchedule('1-23 12:00', sendMessage, ePortfolioMeme, dataChannelID);
+      setSchedule('1-30 12:00', sendMessage, ePortfolioMeme, dataChannelID);
+      setSchedule('2-6 12:00', sendMessage, ePortfolioMeme, dataChannelID);
 
       setSchedule(
         '1-16 14:00',
