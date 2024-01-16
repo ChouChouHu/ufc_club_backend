@@ -43,7 +43,7 @@ export function isDatePassed(inputDate) {
   return diffDays > 2;
 }
 
-export function setSchedule(time, callback, content) {
+export function setSchedule(time, callback, content, channelID) {
   const timeArray = convertStringToArray(time);
   const scheduledTime = new Date(
     2024,
@@ -61,7 +61,7 @@ export function setSchedule(time, callback, content) {
   ${content}`);
   });
 
-  schedule.scheduleJob(scheduledTime, () => callback(content));
+  schedule.scheduleJob(scheduledTime, () => callback(content, channelID));
   console.log(`已排程 ${formatDate(scheduledTime)}`);
 }
 

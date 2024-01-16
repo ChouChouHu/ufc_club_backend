@@ -2,10 +2,10 @@ import { verifyKey } from 'discord-interactions';
 import fetch from 'node-fetch';
 import schedule from 'node-schedule';
 
-const channelID = '1189445973445976064'; // Announcement board
 const testChannelID = '1192389879905140820';
 
-export async function sendMessage(content) {
+export async function sendMessage(content, channelID = '1189445973445976064') {
+  // default Channel ID: #公布欄
   const endpoint = `/channels/${channelID}/messages`;
   try {
     const res = await DiscordRequest(endpoint, {

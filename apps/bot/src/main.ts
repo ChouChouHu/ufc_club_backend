@@ -14,7 +14,6 @@ import schedule_messages from './data/schedule_messages';
 import { TOO_MUCH_TOKEN } from './data/comments';
 
 const app = express();
-const roleTester = '<@&1193794222269136938>';
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 // app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
@@ -102,6 +101,11 @@ const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
   (async () => {
     try {
+      const classChannelID = '1189446040168960090'; // #班級頻道
+      const lifeChannelID = '1189446109563727903'; // #生活頻道
+      const roleFrontend = '<@&1189113826243792956>'; // @Front-End
+      const roleTester = '<@&1193794222269136938>'; // @Tester
+
       await setDailyMessage();
 
       schedule_messages.forEach((message) => {
@@ -110,9 +114,25 @@ const server = app.listen(port, () => {
       });
 
       const ePortfolioMeme = '[E-Portfolio](https://i.imgur.com/K1dU4jX.png)';
-      setSchedule('1-23 12:00', sendMessage, ePortfolioMeme);
-      setSchedule('1-30 12:00', sendMessage, ePortfolioMeme);
-      setSchedule('2-6 12:00', sendMessage, ePortfolioMeme);
+      setSchedule('1-23 12:00', sendMessage, ePortfolioMeme, classChannelID);
+      setSchedule('1-30 12:00', sendMessage, ePortfolioMeme, classChannelID);
+      setSchedule('2-6 12:00', sendMessage, ePortfolioMeme, classChannelID);
+
+      setSchedule(
+        '1-16 14:00',
+        sendMessage,
+        `${roleFrontend}
+
+跟大家分享要怎麼跟機器人相處：
+[ChatGPT 使用示範](https://chat.openai.com/share/e95c509d-e9f8-424e-b693-840868839a58)`,
+        classChannelID
+      );
+      setSchedule(
+        '1-16 14:00',
+        sendMessage,
+        `導師 & 同學午安～我是 Alban，是這次的助教，也是大家的好朋友！我的興趣是跟別人說早安，還有 Reivew 別人的 Code，接下來會陪伴大家度過這個學程～（如果有什麼想許願的，可以在頻道上跟我說，不要私訊我哦）`,
+        lifeChannelID
+      );
 
       await sendTestMessage(`${roleTester} Bot is up and running!`);
     } catch (e) {
