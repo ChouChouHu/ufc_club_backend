@@ -114,7 +114,7 @@ const server = app.listen(port, () => {
         setSchedule(message.time, sendMessage, message.content);
       });
 
-      const ePortfolioMeme = '[E-Portfolio](https://i.imgur.com/K1dU4jX.png)';
+      const ePortfolioMeme = '[E-Portfolio](https://i.imgur.com/JFhO1au.png)';
       setSchedule('1-23 12:00', sendMessage, ePortfolioMeme, classChannelID);
       setSchedule('1-30 12:00', sendMessage, ePortfolioMeme, classChannelID);
       setSchedule('2-6 12:00', sendMessage, ePortfolioMeme, classChannelID);
