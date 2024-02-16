@@ -101,9 +101,9 @@ const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
   (async () => {
     try {
-      const classChannelID = '1189446040168960090'; // #班級頻道
+      // const classChannelID = '1189446040168960090'; // #班級頻道
       // const lifeChannelID = '1189446109563727903'; // #生活頻道
-      const dataChannelID = '1189498873404727326'; // #班級頻道 ( DATA )
+      // const dataChannelID = '1189498873404727326'; // #班級頻道 ( DATA )
       const roleFrontend = '<@&1189113826243792956>'; // @Front-End
       const roleTester = '<@&1193794222269136938>'; // @Tester
 
@@ -114,49 +114,43 @@ const server = app.listen(port, () => {
         setSchedule(message.time, sendMessage, message.content);
       });
 
-      const ePortfolioMeme = '[E-Portfolio](https://i.imgur.com/JFhO1au.png)';
-      setSchedule('1-23 12:00', sendMessage, ePortfolioMeme, classChannelID);
-      setSchedule('1-30 12:00', sendMessage, ePortfolioMeme, classChannelID);
-      setSchedule('2-6 12:00', sendMessage, ePortfolioMeme, classChannelID);
-      setSchedule('1-23 12:00', sendMessage, ePortfolioMeme, dataChannelID);
-      setSchedule('1-30 12:00', sendMessage, ePortfolioMeme, dataChannelID);
-      setSchedule('2-6 12:00', sendMessage, ePortfolioMeme, dataChannelID);
+      //       const ePortfolioMeme = '[E-Portfolio](https://i.imgur.com/JFhO1au.png)';
+      //       setSchedule('1-23 12:00', sendMessage, ePortfolioMeme, classChannelID);
+      //       setSchedule('1-30 12:00', sendMessage, ePortfolioMeme, classChannelID);
+      //       setSchedule('2-6 12:00', sendMessage, ePortfolioMeme, classChannelID);
+      //       setSchedule('1-23 12:00', sendMessage, ePortfolioMeme, dataChannelID);
+      //       setSchedule('1-30 12:00', sendMessage, ePortfolioMeme, dataChannelID);
+      //       setSchedule('2-6 12:00', sendMessage, ePortfolioMeme, dataChannelID);
 
-      setSchedule(
-        '1-26 09:00',
-        sendMessage,
-        `早安～需要一點智慧嗎？
-- [那些可以問得更好的程式問題](https://hulitw.medium.com/ask-better-questions-19f01b02f436)
-- [提問的智慧](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way#清楚明確地表達你的問題以及需求)`,
-        classChannelID
-      );
+      //       setSchedule(
+      //         '1-26 09:00',
+      //         sendMessage,
+      //         `早安～需要一點智慧嗎？
+      // - [那些可以問得更好的程式問題](https://hulitw.medium.com/ask-better-questions-19f01b02f436)
+      // - [提問的智慧](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way#清楚明確地表達你的問題以及需求)`,
+      //         classChannelID
+      //       );
 
-      setSchedule(
-        '2-7 09:00',
-        sendMessage,
-        `${roleFrontend} 恭喜各位完成遠距學習～年後就是駐點學習的開始，難度會更高、步調會更緊湊，但同時也會有同學和導師們可以互相討論與解惑，所以不用太焦慮，過年期間好好陪家人，也記得先停止訂閱 Treehouse（超過一個月的費用不予以補助）。
+      //       setSchedule(
+      //         '2-7 09:00',
+      //         sendMessage,
+      //         `${roleFrontend} 恭喜各位完成遠距學習～年後就是駐點學習的開始，難度會更高、步調會更緊湊，但同時也會有同學和導師們可以互相討論與解惑，所以不用太焦慮，過年期間好好陪家人，也記得先停止訂閱 Treehouse（超過一個月的費用不予以補助）。
 
-好奇前端技能樹的可以看這個 [Frontend Developer Roadmap: Learn to become a modern frontend developer](https://roadmap.sh/frontend)
-我們目前的階段大約是到 Javascript，然後有碰一點點 Git 跟 Package Managers，同學可以往回檢查有沒有什麼概念還有點矇懂，有餘力的也可以往後預習。
+      // 好奇前端技能樹的可以看這個 [Frontend Developer Roadmap: Learn to become a modern frontend developer](https://roadmap.sh/frontend)
+      // 我們目前的階段大約是到 Javascript，然後有碰一點點 Git 跟 Package Managers，同學可以往回檢查有沒有什麼概念還有點矇懂，有餘力的也可以往後預習。
 
-另外預告一下，進來駐點後就會大量的使用 Git，還不熟悉的人一定要把握時間再練習過，尤其是 Git 指令的操作，在這邊分享一個練習 Git 的互動小網站: [LearnGit](https://learngitbranching.js.org/)
+      // 另外預告一下，進來駐點後就會大量的使用 Git，還不熟悉的人一定要把握時間再練習過，尤其是 Git 指令的操作，在這邊分享一個練習 Git 的互動小網站: [LearnGit](https://learngitbranching.js.org/)
 
-Remote 期間自覺比較緊繃的同學，可以趁這段時間回頭複習，確保自己有確實理解每個觀念。進度比較超前的同學，如果想要預習未來的東西，可以去搜尋 [FreeCodeCamp](https://www.freecodecamp.org/learn/)（一題一題解，適合零碎時間）跟 [React 官方文件](https://react.dev/learn)裡的練習題。
+      // Remote 期間自覺比較緊繃的同學，可以趁這段時間回頭複習，確保自己有確實理解每個觀念。進度比較超前的同學，如果想要預習未來的東西，可以去搜尋 [FreeCodeCamp](https://www.freecodecamp.org/learn/)（一題一題解，適合零碎時間）跟 [React 官方文件](https://react.dev/learn)裡的練習題。
 
-預祝各位新年快樂～`
-      );
+      // 預祝各位新年快樂～`
+      //       );
 
-      setSchedule(
-        '2-15 09:00',
-        sendMessage,
-        `${roleFrontend} 春節假期結束囉，下週三就要開學了，這段期間有什麼自學的問題可以找我（抽抽）討論～`
-      );
-
-      setSchedule(
-        '2-20 09:00',
-        sendMessage,
-        `${roleFrontend} 明天要開學囉，在這邊提醒，School 提供螢幕，但不提供線材、鍵盤、滑鼠，需要 HDMI 線的請自備唷`
-      );
+      //       setSchedule(
+      //         '2-15 09:00',
+      //         sendMessage,
+      //         `${roleFrontend} 春節假期結束囉，下週三就要開學了，這段期間有什麼自學的問題可以找我（抽抽）討論～`
+      //       );
 
       setSchedule(
         '2-21 11:00',
