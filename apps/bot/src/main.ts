@@ -30,12 +30,11 @@ app.post(
       const pr = data.pull_request;
       const unvalidMessage = isPRUnvalid(pr);
 
-      sendTestMessage(
-        `**${pr.user.login}** 交作業囉：[${pr.title}](${pr.html_url})`
-      );
-
       try {
         if (action === 'opened') {
+          sendTestMessage(
+            `**${pr.user.login}** 交作業囉：[${pr.title}](${pr.html_url})`
+          );
           if (unvalidMessage) {
             postComment(pr.issue_url + '/comments', unvalidMessage);
             return;
