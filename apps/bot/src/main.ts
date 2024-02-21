@@ -32,6 +32,10 @@ app.post(
       const assignmentName = pr.head.ref.toLowerCase().split('-')[1];
       if (assignmentName === 'w0p1') return; // first assignment is not required to be checked by GPT
 
+      sendTestMessage(
+        `**${pr.user.login}** 交作業囉：[${pr.title}](${pr.html_url})`
+      );
+
       try {
         if (action === 'opened') {
           if (unvalidMessage) {
@@ -41,9 +45,6 @@ app.post(
 
           console.log(
             `An pull_request was opened with this title: ${pr.title}`
-          );
-          sendTestMessage(
-            `**${pr.user.login}** 交作業囉：[${pr.title}](${pr.html_url})`
           );
 
           const assignmentName = pr.head.ref.toLowerCase().split('-')[1];
