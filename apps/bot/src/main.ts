@@ -29,6 +29,8 @@ app.post(
       const action = data.action;
       const pr = data.pull_request;
       const unvalidMessage = isPRUnvalid(pr);
+      const assignmentName = pr.head.ref.toLowerCase().split('-')[1];
+      if (assignmentName === 'w0p1') return; // first assignment is not required to be checked by GPT
 
       try {
         if (action === 'opened') {
@@ -45,11 +47,10 @@ app.post(
           );
 
           const assignmentName = pr.head.ref.toLowerCase().split('-')[1];
-          if (assignmentName === 'w0p1') return; // first assignment is not required to be checked by GPT
           if (assignmentName === 'w2p1') {
             postComment(
               pr.issue_url + '/comments',
-              'initial react 的程式碼太多了，我們還是不要壓榨機器人吧：）⋯⋯by Alban'
+              'initial react 的程式碼太多了，機器人公休⋯⋯by Alban'
             );
             return;
           }
