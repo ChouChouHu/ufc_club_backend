@@ -30,45 +30,52 @@ app.post(
       const pr = data.pull_request;
       const unvalidMessage = isPRUnvalid(pr);
 
-      if (action === 'opened') {
-        if (unvalidMessage) {
-          postComment(pr.issue_url + '/comments', unvalidMessage);
-          return;
-        }
+      try {
+        if (action === 'opened') {
+          if (unvalidMessage) {
+            postComment(pr.issue_url + '/comments', unvalidMessage);
+            return;
+          }
 
-        console.log(`An pull_request was opened with this title: ${pr.title}`);
-        sendTestMessage(
-          `**${pr.user.login}** 交作業囉：[${pr.title}](${pr.html_url})`
-        );
-
-        const assignmentName = pr.head.ref.toLowerCase().split('-')[1];
-        if (assignmentName === 'w0p1') return; // first assignment is not required to be checked by GPT
-        if (assignmentName === 'w2p1') {
-          postComment(
-            pr.issue_url + '/comments',
-            'initial react 的程式碼太多了，我們還是不要壓榨機器人吧：）⋯⋯by Alban'
+          console.log(
+            `An pull_request was opened with this title: ${pr.title}`
           );
-          return;
-        }
+          sendTestMessage(
+            `**${pr.user.login}** 交作業囉：[${pr.title}](${pr.html_url})`
+          );
 
-        const res = await getResponseFromGPT(pr.url, assignmentName);
-        if (assignmentName === 'w0p2' && res === TOO_MUCH_TOKEN) return; // no need to send comment when w0p2 is too long
-        postComment(pr.issue_url + '/comments', res);
-      } else if (action === 'reopened') {
-        if (unvalidMessage) return;
-        console.log(
-          `An pull_request was reopened with this title: ${pr.title}`
-        );
-        sendTestMessage(
-          `**${pr.user.login}** 補交作業囉：[${pr.title}](${pr.html_url}}`
-        );
-      } else if (action === 'closed') {
-        if (pr.merged || unvalidMessage) return;
-        sendTestMessage(
-          `**${pr.user.login}** close 他的 ${pr.title} PR 了，看來是決定要再改改了`
-        );
-      } else {
-        console.log(`Unhandled action for the pull_request event: ${action}`);
+          const assignmentName = pr.head.ref.toLowerCase().split('-')[1];
+          if (assignmentName === 'w0p1') return; // first assignment is not required to be checked by GPT
+          if (assignmentName === 'w2p1') {
+            postComment(
+              pr.issue_url + '/comments',
+              'initial react 的程式碼太多了，我們還是不要壓榨機器人吧：）⋯⋯by Alban'
+            );
+            return;
+          }
+
+          const res = await getResponseFromGPT(pr.url, assignmentName);
+          if (assignmentName === 'w0p2' && res === TOO_MUCH_TOKEN) return; // no need to send comment when w0p2 is too long
+          postComment(pr.issue_url + '/comments', res);
+        } else if (action === 'reopened') {
+          if (unvalidMessage) return;
+          console.log(
+            `An pull_request was reopened with this title: ${pr.title}`
+          );
+          sendTestMessage(
+            `**${pr.user.login}** 補交作業囉：[${pr.title}](${pr.html_url}}`
+          );
+        } else if (action === 'closed') {
+          if (pr.merged || unvalidMessage) return;
+          sendTestMessage(
+            `**${pr.user.login}** close 他的 ${pr.title} PR 了，看來是決定要再改改了`
+          );
+        } else {
+          console.log(`Unhandled action for the pull_request event: ${action}`);
+        }
+      } catch (e) {
+        console.log(e);
+        sendTestMessage('Bot is down!');
       }
     } else if (githubEvent === 'ping') {
       console.log('GitHub sent the ping event');
