@@ -24,7 +24,7 @@ app.post(
   async (req, res) => {
     res.status(202).send('Accepted');
     const githubEvent = req.headers['x-github-event'];
-    if (githubEvent === 'issue') {
+    if (githubEvent === 'issue_comment') {
       try {
         const data = req.body;
         const action = data.action;
