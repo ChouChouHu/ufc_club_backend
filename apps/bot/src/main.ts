@@ -24,6 +24,23 @@ app.post(
   async (req, res) => {
     res.status(202).send('Accepted');
     const githubEvent = req.headers['x-github-event'];
+    if (githubEvent === 'issue') {
+      try {
+        const data = req.body;
+        const action = data.action;
+        const comment = data.comment;
+        const message = comment.body;
+        const issue = data.issue;
+        const title = issue.title;
+
+        if (action === 'created') {
+          sendTestMessage(`${title} 有新的留言：${message}`);
+        }
+      } catch (e) {
+        console.log(e);
+        sendTestMessage('Bot is down!');
+      }
+    }
     if (githubEvent === 'pull_request') {
       const data = req.body;
       const action = data.action;
