@@ -29,8 +29,6 @@ app.post(
       const action = data.action;
       const pr = data.pull_request;
       const unvalidMessage = isPRUnvalid(pr);
-      const assignmentName = pr.head.ref.toLowerCase().split('-')[1];
-      if (assignmentName === 'w0p1') return; // first assignment is not required to be checked by GPT
 
       sendTestMessage(
         `**${pr.user.login}** 交作業囉：[${pr.title}](${pr.html_url})`
@@ -48,6 +46,7 @@ app.post(
           );
 
           const assignmentName = pr.head.ref.toLowerCase().split('-')[1];
+          if (assignmentName === 'w0p1') return; // first assignment is not required to be checked by GPT
           if (assignmentName === 'w2p1') {
             postComment(
               pr.issue_url + '/comments',
