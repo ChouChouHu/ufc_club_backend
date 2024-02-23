@@ -45,7 +45,9 @@ app.post(
         const issue = data.issue;
         const title = issue.title;
 
-        if (action === 'created' || username !== 'ChouChouHu') {
+        console.log(`${username} this message: ${message}`);
+
+        if (action === 'created' && username !== 'ChouChouHu') {
           sendTestMessage(`${title} 有新的留言：${message}`);
         }
       } catch (e) {
