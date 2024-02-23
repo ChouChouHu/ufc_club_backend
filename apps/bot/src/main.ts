@@ -41,10 +41,11 @@ app.post(
         const action = data.action;
         const comment = data.comment;
         const message = comment.body;
+        const username = comment.user.login;
         const issue = data.issue;
         const title = issue.title;
 
-        if (action === 'created') {
+        if (action === 'created' || username !== 'ChouChouHu') {
           sendTestMessage(`${title} 有新的留言：${message}`);
         }
       } catch (e) {
@@ -90,14 +91,14 @@ app.post(
           console.log(
             `An pull_request was reopened with this title: ${pr.title}`
           );
-          sendTestMessage(
-            `**${pr.user.login}** 補交作業囉：[${pr.title}](${pr.html_url}}`
-          );
+          // sendTestMessage(
+          //   `**${pr.user.login}** 補交作業囉：[${pr.title}](${pr.html_url}}`
+          // );
         } else if (action === 'closed') {
           if (pr.merged || unvalidMessage) return;
-          sendTestMessage(
-            `**${pr.user.login}** close 他的 ${pr.title} PR 了，看來是決定要再改改了`
-          );
+          // sendTestMessage(
+          //   `**${pr.user.login}** close 他的 ${pr.title} PR 了，看來是決定要再改改了`
+          // );
         } else {
           console.log(`Unhandled action for the pull_request event: ${action}`);
         }
