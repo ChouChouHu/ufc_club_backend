@@ -204,7 +204,17 @@ const server = app.listen(port, () => {
       setSchedule(
         '2-27 9:00',
         sendMessage,
-        `${roleFrontend} [簡報連結](https://drive.google.com/drive/folders/1GiN7PQY4ASxy1XgnEwuxkJYD1IT5PMad?usp=sharing)，請選到自己的組別進行編輯`
+        `${roleFrontend} 早上 recap: [簡報連結](https://drive.google.com/drive/folders/1GiN7PQY4ASxy1XgnEwuxkJYD1IT5PMad?usp=sharing)，請選到自己的組別進行編輯`
+      );
+      setSchedule(
+        '2-27 15:50',
+        sendMessage,
+        `${roleFrontend} 提醒：16:00（10 min 後）要進行放假前的 recap 哦～`
+      );
+      setSchedule(
+        '2-27 16:00',
+        sendMessage,
+        `${roleFrontend} 下午 recap: [簡報連結](https://drive.google.com/drive/folders/13l4lmBwmuRtB5ATL9sbZa6TjK-AHN2eQ?usp=sharing)，請選到自己的組別進行編輯`
       );
       await sendTestMessage(`${roleTester} Bot is up and running!`);
     } catch (e) {
