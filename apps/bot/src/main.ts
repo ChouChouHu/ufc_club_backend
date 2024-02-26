@@ -29,7 +29,7 @@ app.post(
         const data = req.body;
         const commit = data.head_commit;
         const message = commit.message;
-        sendTestMessage(`有人完成作業囉 ${message}`);
+        sendTestMessage(`✅ 有人完成作業囉\n ${message}`);
       } catch (e) {
         console.log(e);
         sendTestMessage('Bot is down!');
@@ -48,7 +48,7 @@ app.post(
         console.log(`${username} this message: ${message}`);
 
         if (action === 'created' && username !== 'ChouChouHu') {
-          sendTestMessage(`${title} 有新的留言：${message}`);
+          sendTestMessage(`💬 ${title} 有新的留言：\n${message}`);
         }
       } catch (e) {
         console.log(e);
