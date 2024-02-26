@@ -18,13 +18,17 @@ export function isPRUnvalid(pr) {
 }
 
 export async function postComment(uri, content) {
-  console.log('post comment to uri:', uri);
-  const headers = {
-    'User-Agent': 'request',
-    Authorization: `token ${process.env.GITHUB_TOKEN}`,
-  };
-  const body = JSON.stringify({
-    body: content,
-  });
-  await rp({ method: 'POST', uri, body: body, headers });
+  try {
+    console.log('post comment to uri:', uri);
+    const headers = {
+      'User-Agent': 'request',
+      Authorization: `token ${process.env.GITHUB_TOKEN}`,
+    };
+    const body = JSON.stringify({
+      body: content,
+    });
+    await rp({ method: 'POST', uri, body: body, headers });
+  } catch (err) {
+    console.error('post comment error:', err);
+  }
 }
