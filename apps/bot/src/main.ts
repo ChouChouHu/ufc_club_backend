@@ -190,17 +190,22 @@ const server = app.listen(port, () => {
       //         `${roleFrontend} 春節假期結束囉，下週三就要開學了，這段期間有什麼自學的問題可以找我（抽抽）討論～`
       //       );
 
+      //       setSchedule(
+      //         '2-21 11:00',
+      //         sendMessage,
+      //         `${roleFrontend} 前端班下午 13:30 在 9F Microsoft 會議室集合，這段時間不知道要做什麼的人，可以先預習這幾題：
+
+      // - \`git push\` 實際上會發生什麼事？
+      // - \`git add\` 實際上是在 add 什麼？add 到哪？
+      // - 多久 commit 一次比較適當？每次 commit 代表的意涵？
+      // - 什麼是 PR (Pull Request)？`
+      //       );
+
       setSchedule(
-        '2-21 11:00',
+        '2-27 9:00',
         sendMessage,
-        `${roleFrontend} 前端班下午 13:30 在 9F Microsoft 會議室集合，這段時間不知道要做什麼的人，可以先預習這幾題：
-
-- \`git push\` 實際上會發生什麼事？
-- \`git add\` 實際上是在 add 什麼？add 到哪？
-- 多久 commit 一次比較適當？每次 commit 代表的意涵？
-- 什麼是 PR (Pull Request)？`
+        `${roleFrontend} [簡報連結](https://drive.google.com/drive/folders/1GiN7PQY4ASxy1XgnEwuxkJYD1IT5PMad?usp=sharing)，請選到自己的組別進行編輯`
       );
-
       await sendTestMessage(`${roleTester} Bot is up and running!`);
     } catch (e) {
       console.log(e);
