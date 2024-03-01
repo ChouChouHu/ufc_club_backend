@@ -1,6 +1,13 @@
 import schedule from 'node-schedule';
 import { sendTestMessage } from './external_services/discord_api';
 
+export function formatMessageAsBlockquote(message) {
+  return message
+    .split('\n')
+    .map((line) => `> ${line}`)
+    .join('\n');
+}
+
 export function getAssignmentExpiredDate(
   assignmentName,
   startDate = '2024-02-21'

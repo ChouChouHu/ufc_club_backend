@@ -1,7 +1,11 @@
 import express from 'express';
 import * as path from 'path';
 import { InteractionResponseType, InteractionType } from 'discord-interactions';
-import { setSchedule, isTimeEarlierThanNow } from './utils';
+import {
+  setSchedule,
+  isTimeEarlierThanNow,
+  formatMessageAsBlockquote,
+} from './utils';
 import { isPRUnvalid, postComment } from './external_services/github_api';
 import { getResponseFromGPT } from './external_services/openai_api';
 import {
@@ -29,7 +33,9 @@ app.post(
         const data = req.body;
         const commit = data.head_commit;
         const message = commit.message;
-        sendTestMessage(`✅ 有人完成作業囉\n ${message}`);
+        sendTestMessage(
+          `✅ 有人完成作業囉\n ${formatMessageAsBlockquote(message)}`
+        );
       } catch (e) {
         console.log(e);
         sendTestMessage('Bot is down!');
@@ -48,7 +54,9 @@ app.post(
         console.log(`${username} this message: ${message}`);
 
         if (action === 'created' && username !== 'ChouChouHu') {
-          sendTestMessage(`💬 ${title} 有新的留言：\n${message}`);
+          sendTestMessage(
+            `💬 ${title} 有新的留言：\n${formatMessageAsBlockquote(message)}`
+          );
         }
       } catch (e) {
         console.log(e);
@@ -64,7 +72,7 @@ app.post(
       try {
         if (action === 'opened') {
           sendTestMessage(
-            `**${pr.user.login}** 交作業囉：[${pr.title}](${pr.html_url})`
+            `📪 **${pr.user.login}** 交作業囉：[${pr.title}](${pr.html_url})`
           );
           if (unvalidMessage) {
             postComment(pr.issue_url + '/comments', unvalidMessage);
