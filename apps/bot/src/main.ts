@@ -209,21 +209,28 @@ const server = app.listen(port, () => {
       // - 什麼是 PR (Pull Request)？`
       //       );
 
+      // setSchedule(
+      //   '2-27 9:00',
+      //   sendMessage,
+      //   `${roleFrontend} 早上 recap: [簡報連結](https://drive.google.com/drive/folders/1GiN7PQY4ASxy1XgnEwuxkJYD1IT5PMad?usp=sharing)，請選到自己的組別進行編輯`
+      // );
+      // setSchedule(
+      //   '2-27 15:50',
+      //   sendMessage,
+      //   `${roleFrontend} 提醒：16:00（10 min 後）要進行放假前的 recap 哦～`
+      // );
+      // setSchedule(
+      //   '2-27 16:00',
+      //   sendMessage,
+      //   `${roleFrontend} 下午 recap: [簡報連結](https://drive.google.com/drive/folders/13l4lmBwmuRtB5ATL9sbZa6TjK-AHN2eQ?usp=sharing)，請選到自己的組別進行編輯`
+      // );
+
       setSchedule(
-        '2-27 9:00',
+        '3-7 08:30',
         sendMessage,
-        `${roleFrontend} 早上 recap: [簡報連結](https://drive.google.com/drive/folders/1GiN7PQY4ASxy1XgnEwuxkJYD1IT5PMad?usp=sharing)，請選到自己的組別進行編輯`
+        `${roleFrontend} **今天 Recap 10:00 開始**，請大家在 09:30 以前，到 [Sheet(FAQ)](https://docs.google.com/spreadsheets/d/1BvtVA38JDSdnjdb6j3g7k8FfBlDqSGAvj2tuFlExWqQ/edit?usp=sharing) 填寫至少一則你現階段想問的問題，可以是實作上的、概念上的，或單純是你好奇的，Recap 時會討論。`
       );
-      setSchedule(
-        '2-27 15:50',
-        sendMessage,
-        `${roleFrontend} 提醒：16:00（10 min 後）要進行放假前的 recap 哦～`
-      );
-      setSchedule(
-        '2-27 16:00',
-        sendMessage,
-        `${roleFrontend} 下午 recap: [簡報連結](https://drive.google.com/drive/folders/13l4lmBwmuRtB5ATL9sbZa6TjK-AHN2eQ?usp=sharing)，請選到自己的組別進行編輯`
-      );
+
       await sendTestMessage(`${roleTester} Bot is up and running!`);
     } catch (e) {
       console.log(e);
