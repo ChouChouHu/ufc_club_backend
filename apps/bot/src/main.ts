@@ -95,6 +95,7 @@ app.post(
 
           const res = await getResponseFromGPT(pr.url, assignmentName);
           if (assignmentName === 'w0p2' && res === TOO_MUCH_TOKEN) return; // no need to send comment when w0p2 is too long
+          if (res === TOO_MUCH_TOKEN) return; // 0311: no need to send comment when the response is too long
           postComment(pr.issue_url + '/comments', res);
         } else if (action === 'reopened') {
           if (unvalidMessage) return;
