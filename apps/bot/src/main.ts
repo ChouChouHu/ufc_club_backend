@@ -232,6 +232,47 @@ const server = app.listen(port, () => {
         `${roleFrontend} **今天 Recap 10:00 開始**，請大家在 09:30 以前，到 [Sheet(FAQ)](https://docs.google.com/spreadsheets/d/1BvtVA38JDSdnjdb6j3g7k8FfBlDqSGAvj2tuFlExWqQ/edit?usp=sharing) 填寫至少一則你現階段想問的問題，可以是實作上的、概念上的，或單純是你好奇的，Recap 時會討論。`
       );
 
+      setSchedule(
+        '3-15 17:00',
+        sendMessage,
+        `${roleFrontend}
+Here is the STYLiSH sample code: https://github.com/AppWorks-School-Materials/Stylish-Front-End
+        
+Project 1 Review Questions
+\`\`\`
+JavaScript
+1. Describe primitive data type and reference data type. What's the difference?
+2. What's the difference between == and ===?
+3. Describe the naming convention in JavaScript and React. How do we name different variables, functions, components and modules? How to use prefix and suffix? When to use noun and verb? When should we use plural nouns?
+4. What are truthy/falsy values?
+5. When to use optional chaining?
+
+React
+6. What's JSX? Why do we need it?
+7. How to use useState?
+8. How to use useEffect?
+9. How to use useRef?
+10. How to use custom hook?
+11. How to use React Context?
+12. How to handle form in React?
+
+Libraries
+13. What's the benefit of using Styled Components?
+14. What's the benefit of using React Router?
+
+Others
+- What have you found that you can improve or do differently? For example:
+  - Any new tricks with React Router?
+  - Any ideas for Styled Components?
+  - Anything else.
+- What did you learn from the STYLiSH project?
+- What did you find which is interesting and you want to share with others?
+\`\`\`
+        `
+      );
+
+      
+
       await sendTestMessage(`${roleTester} Bot is up and running!`);
     } catch (e) {
       console.log(e);
