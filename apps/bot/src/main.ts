@@ -226,12 +226,17 @@ const server = app.listen(port, () => {
       //   `${roleFrontend} 下午 recap: [簡報連結](https://drive.google.com/drive/folders/13l4lmBwmuRtB5ATL9sbZa6TjK-AHN2eQ?usp=sharing)，請選到自己的組別進行編輯`
       // );
 
-      setSchedule(
-        '3-20 09:00',
-        sendMessage,
-        `${roleFrontend} 今天下午 Firebase 驗收完後，17:00 @ Microsoft 集合，會發送 Topic Discussion 的題目`
-      );
+      // setSchedule(
+      //   '3-20 09:00',
+      //   sendMessage,
+      //   `${roleFrontend} 今天下午 Firebase 驗收完後，17:00 @ Microsoft 集合，會發送 Topic Discussion 的題目`
+      // );
       
+      setSchedule(
+        '3-28 12:00',
+        sendMessage,
+        `${roleFrontend} 今天下午 15:00 Dive Into Topics 環節結束，我們在 Microsoft 進行 Recap，請在 15:00 前填妥 [FAQ](https://docs.google.com/spreadsheets/d/1BvtVA38JDSdnjdb6j3g7k8FfBlDqSGAvj2tuFlExWqQ/edit?usp=sharing)`
+      );
 
       await sendTestMessage(`${roleTester} Bot is up and running!`);
     } catch (e) {
