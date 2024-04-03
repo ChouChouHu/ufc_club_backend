@@ -231,7 +231,7 @@ const server = app.listen(port, () => {
       //   sendMessage,
       //   `${roleFrontend} 今天下午 Firebase 驗收完後，17:00 @ Microsoft 集合，會發送 Topic Discussion 的題目`
       // );
-      
+
       // setSchedule(
       //   '3-28 12:00',
       //   sendMessage,
@@ -241,16 +241,18 @@ const server = app.listen(port, () => {
       const midtermMessage = `
 ${roleFrontend} [期中考題目](https://docs.google.com/document/d/1iYzOEoe_3hoHd8pPWHQJrb8gxaCZDD4nwu5md6NtTlc/edit?usp=sharing)
 ### Rules
-1. 此考試需獨立完成，禁止與他人以口頭對話、文字、螢幕截圖以及任何形式的方式討論題目或是做法。
+1. 此考試需獨立完成，禁止與他人以口頭對話、文字、螢幕截圖以及任何形式的方式討論題目或是做法，午餐可以自己抓時間去吃。
 2. 可以 Google，但**不能使用 ChatGPT 或者 Co-pilot 等任何生成式 AI**，另可以先檢視一下自己面對未知的題目，要怎麼下手解題，不要浪費可以檢視自己學習狀況的機會。
-3. 17:00 前的 commit 才算數
+3. 18:30 前的 commit 才算數。
 
-請簡單自我紀錄一下作答過程，例如「10 點完成第一題，第二題卡了半個小時先跳過去做第三題，第四題找到 xxx 網站有完整的範例可以參考」等等，方便後續回顧和檢討。
-請盡力寫，不要放棄，這個期中考成績不會影響學員在學程內的評分。
+請簡單自我紀錄一下作答過程，例如「11 點完成第一題，第二題卡了半個小時先跳過去做第三題，第四題找到 xxx 網站有完整的範例可以參考」等等，方便後續回顧和檢討。
+請盡力寫，不要放棄，這個期中考是用來協助自我檢核的，不會影響學員在學程內的評分。
+
+大家加油！
       `;
 
       setSchedule(
-        '4-3 9:00',
+        '4-3 10:00',
         sendMessage,
         midtermMessage
       );
