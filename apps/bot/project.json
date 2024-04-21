@@ -12,7 +12,7 @@
         "target": "node",
         "compiler": "tsc",
         "outputPath": "dist/apps/bot",
-        "main": "apps/bot/src/main.ts",
+        "main": "apps/bot/src/main.js",
         "tsConfig": "apps/bot/tsconfig.app.json",
         "assets": ["apps/bot/src/assets"],
         "webpackConfig": "apps/bot/webpack.config.js"
