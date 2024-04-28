@@ -9,40 +9,26 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-export function createNewEventInFirestore(collection, eventNumber, odds) {
+function createNewEventInFirestore(collection, eventNumber, odds) {
   collection.add({
     id: eventNumber,
     name: eventNumber,
     odds
   })
 }
-export async function postOddsToFirestore(eventNumber, odds) {
-  const eventsCollection = db.collection('events');
-  const snapshot = await eventsCollection.where('id', '==', eventNumber).get();
-  if (snapshot.empty) {
-    console.log(`No matching document found with id = ${eventNumber}. Creating new document.`);
-    createNewEventInFirestore(eventsCollection, eventNumber, odds);
-  }
-  else {
-    snapshot.forEach(doc => {
-      console.log('update odds')
-      doc.ref.update({
-        odds
-      })
-    })
-  }
-}
 
 export async function getOddsByEventNumberAndOrder(eventNumber, order) {
   const players = await getPlayersNameByEventNumber(eventNumber);
   const playerOne = players[order * 2].split(' ')[1].toLowerCase()
   const playerTwo = players[order * 2 + 1].split(' ')[1].toLowerCase()
-  console.log(playerOne, playerTwo);
+  // console.log(playerOne, playerTwo);
   const odds = await getOddsByPlayerName([playerOne, playerTwo], eventNumber);
+  // console.log(odds)
   return odds;
 }
 
-export async function getPlayersNameByEventNumber(eventNumber) {
+async function getPlayersNameByEventNumber(eventNumber) {
+  // source: UFC official website
   const url = `https://www.ufc.com/event/ufc-${eventNumber}`;
   try {
     const response = await fetch(url, {
@@ -79,6 +65,7 @@ export async function getPlayersNameByEventNumber(eventNumber) {
 }
 
 export async function getOddsByPlayerName(playerNames, eventNumber) {
+  // source: covers.com
   const url = `https://www.covers.com/ufc/${eventNumber}-${playerNames[0]}-vs-${playerNames[1]}-odds-picks-predictions`
   console.log(url)
   try {
@@ -111,5 +98,22 @@ export async function getOddsByPlayerName(playerNames, eventNumber) {
     return data;
   } catch (err) {
     console.error(err);
+  }
+}
+
+export async function postOddsToFirestore(eventNumber, odds) {
+  const eventsCollection = db.collection('events');
+  const snapshot = await eventsCollection.where('id', '==', eventNumber).get();
+  if (snapshot.empty) {
+    console.log(`No matching document found with id = ${eventNumber}. Creating new document.`);
+    createNewEventInFirestore(eventsCollection, eventNumber, odds);
+  }
+  else {
+    snapshot.forEach(doc => {
+      console.log('update odds')
+      doc.ref.update({
+        odds
+      })
+    })
   }
 }

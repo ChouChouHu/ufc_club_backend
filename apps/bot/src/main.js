@@ -1,6 +1,6 @@
 import express from 'express';
 import * as path from 'path';
-import { getOddsByEventNumberAndOrder, getPlayersNameByEventNumber, postOddsToFirestore, test } from './utils';
+import { getOddsByEventNumberAndOrder, postOddsToFirestore } from './utils';
 
 const app = express();
 
@@ -8,20 +8,15 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 // app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 
-app.get(
-  '/event',
-  (req, res) => {
-    (async () => {
-      const players = await getPlayersNameByEventNumber(301);
-      res.send(players);
-    })()
-  }
-);
-
-// app.get('/test', (req, res) => {
-//   test();
-//   res.send('hi');
-// })
+// app.get(
+//   '/event',
+//   (req, res) => {
+//     (async () => {
+//       const players = await getPlayersNameByEventNumber(301);
+//       res.send(players);
+//     })()
+//   }
+// );
 
 app.get(
   '/odds/:event_id',
@@ -29,11 +24,16 @@ app.get(
     (async () => {
       const eventId = req.params.event_id;
       const allOdds = [];
-      for (let order = 4; order >= 0; order--) {
-        const oddsForEachGame = await getOddsByEventNumberAndOrder(eventId, order);
-        allOdds.push(oddsForEachGame);
+      try {
+        for (let order = 4; order >= 0; order--) {
+          const oddsForEachGame = await getOddsByEventNumberAndOrder(eventId, order);
+          allOdds.push(oddsForEachGame);
+        }
+        await postOddsToFirestore(eventId, allOdds);
+      } catch (err) {
+        console.error(err);
+        allOdds.push("something wrong")
       }
-      await postOddsToFirestore(eventId, allOdds);
       res.send(allOdds);
     })()
   }
