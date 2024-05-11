@@ -1,4 +1,21 @@
-# Org
+# Ultimately Friendly Club
+
+Main programs are in `apps/bot/src/main.js` and `apps/bot/src/utils.js`.  
+Execute the function can crawl the odds data from "cover.com" and ufc official website.  
+
+## To Do
+
+- Schedule the function to execute once a day.
+- New Feature: Instantly get the event result (e.g. who wins, by what way)
+- Refactor: Move the database from firestore to mondo DB
+
+## Dev Rules
+
+1. Fork this repo.
+2. Add a new feature in a new branch. The naming would be like "feature/db_mirgrate".
+3. Send the **pull request** to develop branch.
+
+---
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
