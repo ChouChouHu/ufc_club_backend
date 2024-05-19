@@ -2,12 +2,14 @@ import { crawlOddsByPlayerNameFromCover, crawlAllPlayersByEventNumberFromUFC } f
 
 
 
-export async function getOddsByEventNumberAndOrder(eventNumber, order) {
+export async function getAllOddsByEventNumber(eventNumber) {
     const players = await crawlAllPlayersByEventNumberFromUFC(eventNumber);
-    const playerOne = players[order * 2].split(' ')[1].toLowerCase()
-    const playerTwo = players[order * 2 + 1].split(' ')[1].toLowerCase()
-    // console.log(playerOne, playerTwo);
-    const odds = await crawlOddsByPlayerNameFromCover(eventNumber, [playerOne, playerTwo]);
-    // console.log(odds)
-    return odds;
+    const allOdds = [];
+    for (let order = 0; order < 5; order++) {
+        const playerOne = players[order * 2].split(' ')[1].toLowerCase()
+        const playerTwo = players[order * 2 + 1].split(' ')[1].toLowerCase()
+        const odds = await crawlOddsByPlayerNameFromCover(eventNumber, [playerOne, playerTwo]);
+        allOdds.push(odds);
+    }
+    return allOdds;
 }

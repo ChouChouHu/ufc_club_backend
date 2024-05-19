@@ -1,6 +1,6 @@
 import express from 'express';
 import * as path from 'path';
-import { getOddsByEventNumberAndOrder } from './utils';
+import { getAllOddsByEventNumber } from './utils';
 import { postOddsToFirestore } from './utils/firestore';
 
 const app = express();
@@ -23,17 +23,7 @@ app.get(
   (req, res) => {
     (async () => {
       const eventId = req.params.event_id;
-      const allOdds = [];
-      try {
-        for (let order = 4; order >= 0; order--) {
-          const oddsForEachGame = await getOddsByEventNumberAndOrder(eventId, order);
-          allOdds.push(oddsForEachGame);
-        }
-        await postOddsToFirestore(eventId, allOdds);
-      } catch (err) {
-        console.error(err);
-        allOdds.push("something wrong")
-      }
+      const allOdds = await getAllOddsByEventNumber(eventId);
       res.send(allOdds);
     })()
   }
