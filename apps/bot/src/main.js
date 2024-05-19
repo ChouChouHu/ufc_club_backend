@@ -1,7 +1,7 @@
 import express from 'express';
 import * as path from 'path';
 import { crawlAllOddsFromCover } from './utils';
-import { postOddsToFirestore } from './utils/firestore';
+import { postEventToFirestore } from './utils/firestore';
 import { crawlEventInfoFromUFC } from './utils/crawler';
 
 const app = express();
@@ -27,9 +27,9 @@ app.get(
     (async () => {
       const eventId = req.params.event_id;
       try {
-        const { players } = await crawlEventInfoFromUFC(eventId);
+        const { players, images } = await crawlEventInfoFromUFC(eventId);
         const allOdds = await crawlAllOddsFromCover(eventId, players);
-        await postOddsToFirestore(eventId, allOdds);
+        await postEventToFirestore(eventId, allOdds, players, images);
         res.send(allOdds);
       } catch (error) {
         console.error(error);

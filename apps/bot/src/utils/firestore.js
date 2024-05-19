@@ -7,28 +7,43 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-export async function postOddsToFirestore(eventNumber, odds) {
+export async function postEventToFirestore(eventNumber, odds, players, images) {
     const eventsCollection = db.collection('events');
     const snapshot = await eventsCollection.where('id', '==', eventNumber).get();
+    let info = [];
+    for (let i = 4; i >= 0; i--) {
+        info.push({
+            "player1": {
+                name: players[i * 2],
+                image: images[i * 2]
+            },
+            "player2": {
+                name: players[i * 2 + 1],
+                image: images[i * 2 + 1]
+            }
+        })
+    }
     if (snapshot.empty) {
         console.log(`No matching document found with id = ${eventNumber}. Creating new document.`);
-        createNewEventInFirestore(eventsCollection, eventNumber, odds);
+        createNewEventInFirestore(eventsCollection, eventNumber, odds, info);
     }
     else {
         snapshot.forEach(doc => {
             console.log('update odds')
             doc.ref.update({
-                odds
+                odds,
+                info
             })
         })
     }
 }
 
 
-function createNewEventInFirestore(collection, eventNumber, odds) {
+function createNewEventInFirestore(collection, eventNumber, odds, info) {
     collection.add({
         id: eventNumber,
         name: eventNumber,
-        odds
+        odds,
+        info
     })
 }
