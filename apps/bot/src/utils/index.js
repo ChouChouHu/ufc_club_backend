@@ -15,7 +15,7 @@ export async function getAllOddsByEventNumber(eventNumber) {
         }
         return allOdds;
     } catch (error) {
-        console.error('An error occurred:', error.message);
+        console.error('An error occurred, stop the process:', error.message);
         throw error;  // Rethrow the error to ensure the caller is aware of the failure
     }
 }
