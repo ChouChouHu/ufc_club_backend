@@ -60,13 +60,12 @@ export async function crawlAllPlayersByEventNumberFromUFC(eventNumber) {
     }
 }
 
-export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames) {
+export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames, isReverse = false) {
     // source: covers.com
     const url = `https://www.covers.com/ufc/${eventNumber}-${playerNames[0]}-vs-${playerNames[1]}-odds-picks-predictions`
-    console.log(url)
+    console.log(url);
     try {
-        const response = await fetch(url, {
-        });
+        const response = await fetch(url);
         const body = await response.text();
         const $ = cheerio.load(body);
         const table = $('.Covers-CoversArticles-AdminArticleTable');
@@ -74,6 +73,14 @@ export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames) {
         const headerRow = thead.find('tr').eq(1);
         const firstPlayer = headerRow.find('th').eq(1).text().trim();
         const secondPlayer = headerRow.find('th').eq(2).text().trim();
+
+        const is404 = !firstPlayer || !secondPlayer;
+        if (is404 && !isReverse) {
+            console.log('First attempt failed, retrying with reversed player names...');
+            return crawlOddsByPlayerNameFromCover(eventNumber, [playerNames[1], playerNames[0]], true);
+        } else if (is404) {
+            throw new Error('Failed to fetch data after trying both player name orders');
+        }
 
         const tbody = table.find('tbody');
         const rows = tbody.find('tr');

@@ -24,6 +24,7 @@ app.get(
     (async () => {
       const eventId = req.params.event_id;
       const allOdds = await getAllOddsByEventNumber(eventId);
+      await postOddsToFirestore(eventId, allOdds);
       res.send(allOdds);
     })()
   }

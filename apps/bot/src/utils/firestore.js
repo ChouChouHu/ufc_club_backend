@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import serviceAccount from "./ultimately friendly club firebase-admin.json"
+import serviceAccount from "../ultimately friendly club firebase-admin.json"
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
