@@ -105,8 +105,7 @@ export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames, a
                 console.log(`Attempt ${attempt + 1} failed, trying next combination...`);
                 return crawlOddsByPlayerNameFromCover(eventNumber, playerNames, attempt + 1);
             } else {
-                console.log('Failed to fetch data after trying all combinations');
-                return {};
+                throw new Error('Failed to fetch data after trying all combinations');
             }
         }
 
@@ -129,6 +128,7 @@ export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames, a
         return data;
     } catch (err) {
         console.error(err);
+        throw err; // Rethrow to outside to stop the process
     }
 }
 
