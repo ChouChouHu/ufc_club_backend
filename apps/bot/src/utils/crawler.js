@@ -23,7 +23,7 @@ export async function crawlGameResultByPlayersName(eventNumber, playerNames) {
     }
 }
 
-export async function crawlAllPlayersByEventNumberFromUFC(eventNumber) {
+export async function crawlEventInfoFromUFC(eventNumber) {
     // source: UFC official website
     const url = `https://www.ufc.com/event/ufc-${eventNumber}`;
     try {
@@ -32,10 +32,9 @@ export async function crawlAllPlayersByEventNumberFromUFC(eventNumber) {
         const $ = cheerio.load(body);
         const section = $('#main-card');
         const ul = section.find('.l-listing__group--bordered');
+
         const names = ul.find('.c-listing-fight__corner-name');
-
-        let data = [];
-
+        let players = [];
         names.each(function () {
             const link = $(this).find('a');
             const span = link.find('span');
@@ -52,13 +51,22 @@ export async function crawlAllPlayersByEventNumberFromUFC(eventNumber) {
             }
             // Remove common special characters and normalize the string
             name = name.replace(/['’]/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-            data.push(name);
+            players.push(name);
         });
-        return data;
+
+        const imgs = ul.find('.layout__region--content');
+        let images = [];
+        imgs.each(function () {
+            const img = $(this).find('img');
+            images.push(img.attr('src'));
+        });
+
+        return { players, images };
     } catch (err) {
         console.error(err);
     }
 }
+
 
 export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames, attempt = 0) {
     // source: covers.com
