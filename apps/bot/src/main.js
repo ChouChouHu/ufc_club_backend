@@ -29,6 +29,7 @@ app.get(
         res.send(allOdds);
       } catch (error) {
         console.error(error);
+        res.send("404 Not Found");
       }
 
     })()

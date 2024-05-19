@@ -83,11 +83,12 @@ export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames, a
         { isReverse: true, useLastTwoForPlayerOne: true, useLastTwoForPlayerTwo: false },
         { isReverse: true, useLastTwoForPlayerOne: false, useLastTwoForPlayerTwo: true },
         { isReverse: true, useLastTwoForPlayerOne: true, useLastTwoForPlayerTwo: true },
+        { isReverse: false, useLastTwoForPlayerOne: false, useLastTwoForPlayerTwo: false, addDash: true },
     ];
 
-    const { isReverse, useLastTwoForPlayerOne, useLastTwoForPlayerTwo } = combinations[attempt];
+    const { isReverse, useLastTwoForPlayerOne, useLastTwoForPlayerTwo, addDash } = combinations[attempt];
     const formattedPlayerNames = getFormattedNames(isReverse ? [playerNames[1], playerNames[0]] : playerNames, useLastTwoForPlayerOne, useLastTwoForPlayerTwo);
-    const url = `https://www.covers.com/ufc/${eventNumber}-${formattedPlayerNames[0]}-vs-${formattedPlayerNames[1]}-odds-picks-predictions`;
+    const url = `https://www.covers.com/ufc/${eventNumber}-${formattedPlayerNames[0]}-vs-${formattedPlayerNames[1]}-odds-picks-predictions${addDash ? '-' : ''}`;
     console.log(url);
 
     try {
