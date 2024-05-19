@@ -1,6 +1,7 @@
 import express from 'express';
 import * as path from 'path';
-import { getOddsByEventNumberAndOrder, postOddsToFirestore } from './utils';
+import { getOddsByEventNumberAndOrder } from './utils';
+import { postOddsToFirestore } from './utils/firestore';
 
 const app = express();
 
@@ -8,15 +9,14 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 // app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 
-// app.get(
-//   '/event',
-//   (req, res) => {
-//     (async () => {
-//       const players = await getPlayersNameByEventNumber(301);
-//       res.send(players);
-//     })()
-//   }
-// );
+app.get(
+  '/test',
+  (req, res) => {
+    (async () => {
+      // await getGameResultByPlayersName(300);
+    })()
+  }
+);
 
 app.get(
   '/odds/:event_id',
@@ -39,12 +39,12 @@ app.get(
   }
 );
 
-app.post('/', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Alban: hello!');
 });
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
+  console.log(`Listening at http://localhost:${port}`);
 });
 server.on('error', console.error);
