@@ -27,8 +27,7 @@ export async function crawlAllPlayersByEventNumberFromUFC(eventNumber) {
     // source: UFC official website
     const url = `https://www.ufc.com/event/ufc-${eventNumber}`;
     try {
-        const response = await fetch(url, {
-        });
+        const response = await fetch(url);
         const body = await response.text();
         const $ = cheerio.load(body);
         const section = $('#main-card');
@@ -47,23 +46,50 @@ export async function crawlAllPlayersByEventNumberFromUFC(eventNumber) {
                     if (index < span.length - 1) {
                         name += ' ';
                     }
-                })
-            }
-            else {
+                });
+            } else {
                 name = link.text().trim();
             }
+            // Remove common special characters and normalize the string
+            name = name.replace(/['’]/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
             data.push(name);
-        })
+        });
         return data;
     } catch (err) {
         console.error(err);
     }
 }
 
-export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames, isReverse = false) {
+export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames, attempt = 0) {
     // source: covers.com
-    const url = `https://www.covers.com/ufc/${eventNumber}-${playerNames[0]}-vs-${playerNames[1]}-odds-picks-predictions`
+    const formatName = (nameParts, useLastTwo) => {
+        return useLastTwo && nameParts.length > 1
+            ? `${nameParts[nameParts.length - 2].toLowerCase()}-${nameParts[nameParts.length - 1].toLowerCase()}`
+            : nameParts[nameParts.length - 1].toLowerCase();
+    };
+
+    const getFormattedNames = (playerNames, useLastTwoForPlayerOne, useLastTwoForPlayerTwo) => {
+        const playerOne = formatName(playerNames[0].split(' '), useLastTwoForPlayerOne);
+        const playerTwo = formatName(playerNames[1].split(' '), useLastTwoForPlayerTwo);
+        return [playerOne, playerTwo];
+    };
+
+    const combinations = [
+        { isReverse: false, useLastTwoForPlayerOne: false, useLastTwoForPlayerTwo: false },
+        { isReverse: true, useLastTwoForPlayerOne: false, useLastTwoForPlayerTwo: false },
+        { isReverse: false, useLastTwoForPlayerOne: true, useLastTwoForPlayerTwo: false },
+        { isReverse: false, useLastTwoForPlayerOne: false, useLastTwoForPlayerTwo: true },
+        { isReverse: false, useLastTwoForPlayerOne: true, useLastTwoForPlayerTwo: true },
+        { isReverse: true, useLastTwoForPlayerOne: true, useLastTwoForPlayerTwo: false },
+        { isReverse: true, useLastTwoForPlayerOne: false, useLastTwoForPlayerTwo: true },
+        { isReverse: true, useLastTwoForPlayerOne: true, useLastTwoForPlayerTwo: true },
+    ];
+
+    const { isReverse, useLastTwoForPlayerOne, useLastTwoForPlayerTwo } = combinations[attempt];
+    const formattedPlayerNames = getFormattedNames(isReverse ? [playerNames[1], playerNames[0]] : playerNames, useLastTwoForPlayerOne, useLastTwoForPlayerTwo);
+    const url = `https://www.covers.com/ufc/${eventNumber}-${formattedPlayerNames[0]}-vs-${formattedPlayerNames[1]}-odds-picks-predictions`;
     console.log(url);
+
     try {
         const response = await fetch(url);
         const body = await response.text();
@@ -74,12 +100,14 @@ export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames, i
         const firstPlayer = headerRow.find('th').eq(1).text().trim();
         const secondPlayer = headerRow.find('th').eq(2).text().trim();
 
-        const is404 = !firstPlayer || !secondPlayer;
-        if (is404 && !isReverse) {
-            console.log('First attempt failed, retrying with reversed player names...');
-            return crawlOddsByPlayerNameFromCover(eventNumber, [playerNames[1], playerNames[0]], true);
-        } else if (is404) {
-            throw new Error('Failed to fetch data after trying both player name orders');
+        if (!firstPlayer || !secondPlayer) {
+            if (attempt < combinations.length - 1) {
+                console.log(`Attempt ${attempt + 1} failed, trying next combination...`);
+                return crawlOddsByPlayerNameFromCover(eventNumber, playerNames, attempt + 1);
+            } else {
+                console.log('Failed to fetch data after trying all combinations');
+                return {};
+            }
         }
 
         const tbody = table.find('tbody');
@@ -90,11 +118,11 @@ export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames, i
         rows.each(function () {
             const cells = $(this).find('td');
             if ($(cells[1]).find('a').length > 0) {
-                let method = $(cells[0]).text().trim()
+                let method = $(cells[0]).text().trim();
                 data[method] = {
                     [firstPlayer]: $(cells[1]).find('a').text().trim(),
                     [secondPlayer]: $(cells[2]).find('a').text().trim()
-                }
+                };
             }
         });
 
@@ -103,3 +131,5 @@ export async function crawlOddsByPlayerNameFromCover(eventNumber, playerNames, i
         console.error(err);
     }
 }
+
+
